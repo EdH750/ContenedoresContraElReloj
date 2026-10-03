@@ -1,0 +1,13 @@
+# depslib dependency file v1.0
+1791056715 source:c:\users\martin\desktop\contenedores\contenedorescontraelreloj\contenedorescontrareloj\contenedorescontrareloj.c
+	"ContenedoresContraReloj.h"
+
+1791056715 c:\users\martin\desktop\contenedores\contenedorescontraelreloj\contenedorescontrareloj\contenedorescontrareloj.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<time.h>
+
+1791056715 source:c:\users\martin\desktop\contenedores\contenedorescontraelreloj\contenedorescontrareloj\main.c
+	"ContenedoresContraReloj.h"
+
