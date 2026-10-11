@@ -35,9 +35,30 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="ContenedoresContraReloj.h" />
+		<Unit filename="cola.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="cola.h" />
+		<Unit filename="escenario.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="escenario.h" />
+		<Unit filename="jornada.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="jornada.h" />
+		<Unit filename="lista.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="lista.h" />
+		<Unit filename="nodo.h" />
 		<Unit filename="main.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="pila.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="pila.h" />
 		<Extensions>
 			<lib_finder disable_auto="1" />
 		</Extensions>
