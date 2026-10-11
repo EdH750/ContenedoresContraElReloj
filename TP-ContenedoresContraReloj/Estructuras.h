@@ -67,6 +67,7 @@ typedef enum
 {
     JORNADA_EN_CURSO,
     FIN_NORMAL,
+
     FIN_BLOQUEO,
     FIN_TIEMPO,
 }tMotivoFin;

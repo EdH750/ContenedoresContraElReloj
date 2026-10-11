@@ -121,3 +121,20 @@ int VerUltimoLista(const tLista* l, unsigned tam, void* dato)
     memcpy(dato, (*l)->info, MIN(tam, (*l)->tamInfo));
     return OK;
 }
+
+/*---------------------------------------------------*/
+/* Busca un unico elemento en una lista no ordenada y
+    le aplica una accion sin borrar el nodo si lo
+    encuentra*/
+/*---------------------------------------------------*/
+
+int buscarEnListaSinBorrar(tLista* pl, void* dato, unsigned tam,int(*comp)(void*,void*),void (*accion)(void*)){
+
+    while(*pl && 0==comp(dato,(*pl)->info))
+        pl=&(*pl)->sig;
+    if(0==comp(dato,(*pl)->info)){
+        accion((*pl)->info);
+        return OK;
+    }
+    return NO_ENCONTRADO;
+}

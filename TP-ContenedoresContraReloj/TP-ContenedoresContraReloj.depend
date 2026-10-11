@@ -45,3 +45,49 @@
 	<string.h>
 	"Estructuras.h"
 
+1791711799 source:d:\edu\uni\algoritmos\tp\contenedorescontraelreloj\tp-contenedorescontrareloj\cola.c
+	"cola.h"
+
+1791711799 d:\edu\uni\algoritmos\tp\contenedorescontraelreloj\tp-contenedorescontrareloj\cola.h
+	<string.h>
+	<stdio.h>
+	<stdlib.h>
+	"Estructuras.h"
+
+1791723386 d:\edu\uni\algoritmos\tp\contenedorescontraelreloj\tp-contenedorescontrareloj\estructuras.h
+
+1791717010 source:d:\edu\uni\algoritmos\tp\contenedorescontraelreloj\tp-contenedorescontrareloj\lista.c
+	"lista.h"
+
+1791715977 d:\edu\uni\algoritmos\tp\contenedorescontraelreloj\tp-contenedorescontrareloj\lista.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"Estructuras.h"
+
+1791711799 source:d:\edu\uni\algoritmos\tp\contenedorescontraelreloj\tp-contenedorescontrareloj\main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"OpereacionesYComandos.h"
+
+1791723572 d:\edu\uni\algoritmos\tp\contenedorescontraelreloj\tp-contenedorescontrareloj\opereacionesycomandos.h
+	<string.h>
+	<stdio.h>
+	"cola.h"
+	"pila.h"
+	"Estructuras.h"
+	"lista.h"
+
+1791711799 d:\edu\uni\algoritmos\tp\contenedorescontraelreloj\tp-contenedorescontrareloj\pila.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"Estructuras.h"
+
+1791711799 source:d:\edu\uni\algoritmos\tp\contenedorescontraelreloj\tp-contenedorescontrareloj\pila.c
+	"pila.h"
+
+1791715280 source:d:\edu\uni\algoritmos\tp\contenedorescontraelreloj\tp-contenedorescontrareloj\operacionesycomandos.c
+	"OpereacionesYComandos.h"
+

@@ -8,17 +8,22 @@
 #include "Estructuras.h"
 #include "lista.h"
 
-#define ZONAS_IGUALES 2
-#define ZONA_INEXISTENTE 3
-#define ZONA_VACIA 4
-#define ZONA_LLENA 5
+    /*----------------------*/
+    /*  DEFINE PARA ENT     */
+    /*----------------------*/
+#define CONTENEDOR_ENTREGADO 1
+#define CONTENEDOR_FALTANTE 0
+#define COLA_CAMIONES_VACIA 2
+#define LISTA_ZONAS_VACIA 3
+
 #define SIN_TIEMPO 6
 
-void OperacionVER(tJornada *Jornada);
-int OperacionREU(tJornada *jornada, int idOrigen, int idDestino);
-void ArmarCodigo(char *destino, char *letra, int id);
-int ContarBuquesEnEspera(tCola *cola);
-void ImprimirPilaContenedores(tPila *pila);
-void ImprimirVentanaDePlanificacion(tCola *cola);
+
+int operacionENT(tJornada* jornada);
+int operacionDES(tJornada* jornada);
+
+int cmpContenedores(void* a, void* b);
+void liberarEspacioZona(void* a);
+
 
 #endif // OPEREACIONESYCOMANDOS_H_INCLUDED

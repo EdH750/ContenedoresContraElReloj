@@ -1,237 +1,93 @@
 #include "OpereacionesYComandos.h"
 
-int OperacionREU(tJornada *jornada, int idOrigen, int idDestino)
-{
-    tZona *zonaOrigen = NULL;
-    tZona *zonaDestino = NULL;
-    tZona *zona;
-    tNodo *actual;
-    int T_inicio, T_fin;
+    /*--------------------------------------------------------------*/
+    /* Compara el contenedor en el tope de la pila
+        contenida en la la zona con codContenedor
+    */
+    /*--------------------------------------------------------------*/
+
+int cmpContenedores(void* codContendor, void* zonaActual){
+    tZona* zona= zonaActual;
+    tPila* pilaCont;
     tContenedor contenedor;
-    tOperacion operacion;
+    pilaCont=&(zona->pila);
+    if(PilaVacia(pilaCont))
+        return  CONTENEDOR_FALTANTE;
+    VerTope(pilaCont,sizeof(tContenedor),&contenedor);
 
-    actual = jornada->puerto.zonas;
+    return strcmp((char*)codContendor,contenedor.codigo);
+}
 
-    while(actual != NULL)
-    {
-        zona = (tZona*)actual->info;
+    /*--------------------------------------------------------------*/
+    /* Desapila el contenedor de la zona que llega como parametro
+    */
+    /*--------------------------------------------------------------*/
+void liberarEspacioZona(void* zonaActual){
+    tZona *zona= zonaActual;
+    tPila* pilaCont;
+    tContenedor contenedor;
+    pilaCont=&(zona->pila);
+    if(PilaVacia(pilaCont))
+        return;
+    SacarDePila(pilaCont,sizeof(tContenedor),&contenedor);
+    zona->cantidad--;
+}
+int OperacionENT(tJornada* jornada){
 
-        if(zona->id == idOrigen)
-            zonaOrigen = zona;
-
-        if(zona->id == idDestino)
-            zonaDestino = zona;
-
-        actual = actual->sig;
-    }
-
-    if(zonaOrigen == NULL || zonaDestino == NULL)
-        return ZONA_INEXISTENTE;
-
-    if(idOrigen == idDestino)
-        return ZONAS_IGUALES;
-
-    if(PilaVacia(&zonaOrigen->pila))
-        return ZONA_VACIA;
-
-    if(zonaDestino->cantidad >= jornada->cfg.capacidadPila)
-        return ZONA_LLENA;
-
-    T_inicio = jornada->tiempoActual;
-    T_fin = T_inicio + jornada->cfg.tiempoReubicacionContenedor;
-
-    if(T_fin > jornada->cfg.duracionJornadaMinutos)
+    tCamion camionAtendido;
+    tContenedor contBuscado;
+    tCola* colaCamiones= &(jornada->puerto.colaCamiones);
+    tLista* listaZonas=&(jornada->puerto.zonas);
+    int resultadoBusqueda;
+    int t_inicio = jornada->tiempoActual,
+    t_fin = t_inicio + jornada->cfg.tiempoCargaCamion,
+    t_finDeJornada= jornada->cfg.duracionJornadaMinutos;
+    /*--------------------------------------------------------------*/
+    /*1)Casos particulares de entrada
+       1.1) Reviso que la cola de camiones no este vacia
+       1.2)    "    "  la lista de zonas no este vacia
+       1.3)    "    "  aun quede tiempo para realizar la operacion
+    */
+    /*--------------------------------------------------------------*/
+    if(ColaVacia(colaCamiones))
+        return COLA_CAMIONES_VACIA;
+    if(ListaVacia(listaZonas))
+        return LISTA_ZONAS_VACIA;
+    if(t_fin>t_finDeJornada)
         return SIN_TIEMPO;
-
-    SacarDePila(&zonaOrigen->pila, sizeof(tContenedor), &contenedor);
-
-    if(PonerEnPila(&zonaDestino->pila, sizeof(tContenedor), &contenedor) == SIN_MEM)
-    {
-        PonerEnPila(&zonaOrigen->pila, sizeof(tContenedor), &contenedor);
-        return SIN_MEM;
+    /*--------------------------------------------------------------*/
+    /* 2)Si ambas tienen al menos un elemento
+        2.1)recupero de la cola de camiones el proximo camion
+        2.2)guardo el contenedor del mismo para iniciar la busqueda
+    */
+    /*--------------------------------------------------------------*/
+    VerPrimeroEnCola(colaCamiones,sizeof(tCamion),&camionAtendido);
+    contBuscado=camionAtendido.pedido;
+    /*--------------------------------------------------------------*/
+    /* 3)Busco el contenedor dentro de la lista de zonas,
+        modificando la cantidad de contenedores de la zona
+        y desapilando si lo encuentra
+        (Funcion usada en lista.h)
+        (Comparacion y accion usada para la misma en esta misma hoja)
+    */
+    /*--------------------------------------------------------------*/
+    resultadoBusqueda=buscarEnListaSinBorrar(listaZonas,
+                                             contBuscado.codigo,
+                                             MAX_COD_CONTENEDOR,
+                                             cmpContenedores,
+                                             liberarEspacioZona);
+    /*--------------------------------------------------------------*/
+    /*  4)Si se encontro el contBuscado
+            4.1) Saco al camion actual de la cola de camiones
+            4.2) Avanzo el tiempoActual segun lo que tarde la operacion
+    */
+    /*--------------------------------------------------------------*/
+    if(resultadoBusqueda){
+        SacarDeLaCola(colaCamiones,sizeof(tCamion),&camionAtendido);
+        jornada->tiempoActual= t_fin;
+        return CONTENEDOR_ENTREGADO;
     }
 
-    zonaDestino->cantidad++;
-    zonaOrigen->cantidad--;
-
-    operacion.tInicio = T_inicio;
-    operacion.tFin = T_fin;
-
-    strcpy(operacion.codigo, "REU");
-
-    operacion.contenedor = contenedor;
-    ArmarCodigo(operacion.origen, "Z", idOrigen);
-    ArmarCodigo(operacion.destino, "Z", idDestino);
-
-    jornada->resumen.reubicaciones++;
-
-    PonerAlFinal(&jornada->historial, sizeof(tOperacion), &operacion);
-
-    jornada->tiempoActual = T_fin;
-
-    return OK;
+    return CONTENEDOR_FALTANTE;
 }
 
-void ArmarCodigo (char *destino, char *letra, int id)
-{
-    int divisor = 1;
-    int aux = id;
-
-    *destino = *letra;
-    destino++;
-
-    while(aux >= 10)
-    {
-        aux = aux / 10;
-        divisor = divisor * 10;
-    }
-
-    while(divisor > 0)
-    {
-        *destino = '0' + id / divisor;
-        destino++;
-        id = id % divisor;
-        divisor = divisor / 10;
-    }
-    *destino = '\0';
-}
-
-void OperacionVER(tJornada *jornada)
-{
-    tPuerto *puerto = &jornada->puerto;
-    tNodo *nodo;
-    tZona *zona;
-    tMuelle *muelle;
-    tBuque *buque;
-    int puntaje, i, pendientes, buquesEspera;
-    char *prox;
-
-    printf("\n ========== Estado del Puerto ==========\n");
-    printf("\nTiempo Actual: %d", jornada->tiempoActual);
-
-    printf("\n --- Muelles ---\n");
-
-    for(i=0; i < jornada->puerto.cantMuelles; i++)
-    {
-        muelle = &puerto->muelles[i];
-
-        if(muelle->buque == NULL)
-            printf("M%d: libre\n", muelle->id);
-        else
-        {
-            buque = muelle->buque;
-            pendientes = buque->cantContenedores - buque->proxADescargar;
-
-            if(pendientes > 0)
-                prox = buque->manifiesto[buque->proxADescargar].codigo;
-            else
-                prox = "-";
-
-            printf("M%d: %s | Pendientes: %d | Proximo: %s\n", muelle->id, buque->id, pendientes,prox);
-        }
-    }
-
-    buquesEspera = ContarBuquesEnEspera(&puerto->colaBuques);
-    printf("\nBuques en la cola de espera: %d\n", buquesEspera);
-
-    printf("\n --- Zonas de Almacenamiento --- \n");
-
-    nodo = puerto->zonas;
-    while(nodo != NULL)
-    {
-        zona = (tZona*)nodo->info;
-
-        printf("Z%d [%d/%d] ", zona->id, zona->cantidad, jornada->cfg.capacidadPila);
-        ImprimirPilaContenedores(&zona->pila);
-        printf("\n");
-        nodo=nodo->sig;
-    }
-
-    printf("\n --- Camiones ---\n");
-    ImprimirVentanaDePlanificacion(&puerto->colaCamiones);
-
-    puntaje=jornada->resumen.contenedoresEntregados * 10 + jornada->resumen.buquesDescargados * 5;
-    printf("\nPuntaje Provisorio: %d", puntaje);
-}
-
-int ContarBuquesEnEspera(tCola *cola)
-{
-    void *elem;
-    tCola colaAux;
-    int cant = 0;
-
-    CrearCola(&colaAux);
-
-    while(SacarDeLaCola(cola, sizeof(void*), &elem) != COLA_VACIA)
-    {
-        PonerEnCola(&colaAux, sizeof(void*), &elem);
-        cant++;
-    }
-    while(SacarDeLaCola(&colaAux, sizeof(void*), &elem) != COLA_VACIA)
-        PonerEnCola(cola, sizeof(void*), &elem);
-
-    return cant;
-}
-
-void ImprimirPilaContenedores(tPila *pila)
-{
-    tPila pilaAux;
-    tContenedor contenedor;
-    int primero = 1;
-
-    if(PilaVacia(pila))
-    {
-        printf("-");
-        return;
-    }
-
-    CrearPila(&pilaAux);
-
-    while(SacarDePila(pila, sizeof(tContenedor), &contenedor) != PILA_VACIA)
-    {
-        if(primero)
-        {
-            printf("%s <- Tope", contenedor.codigo);
-            primero = 0;
-        }
-        else
-            printf(" | %s", contenedor.codigo);
-        printf("\n");
-        PonerEnPila(&pilaAux, sizeof(tContenedor), &contenedor);
-    }
-
-    while(SacarDePila(&pilaAux, sizeof(tContenedor), &contenedor) != PILA_VACIA)
-        PonerEnPila(pila, sizeof(tContenedor), &contenedor);
-}
-
-void ImprimirVentanaDePlanificacion(tCola *cola)
-{
-    tCola colaAux;
-    tCamion *camion;
-    int i = 0;
-
-    if(ColaVacia(cola))
-    {
-        printf("No hay camiones esperando\n");
-        return;
-    }
-    CrearCola(&colaAux);
-
-    while(SacarDeLaCola(cola, sizeof(camion), &camion) != COLA_VACIA)
-    {
-        if(i < 3)
-        {
-            printf("%d) %s -> solicita %s", i + 1, camion->id, camion->pedido.codigo);
-
-            if(i == 0)
-                printf(" <- frente");
-
-            printf("\n");
-        }
-        i++;
-        PonerEnCola(&colaAux, sizeof(camion), &camion);
-    }
-
-    while(SacarDeLaCola(&colaAux, sizeof(camion), &camion) != COLA_VACIA)
-        PonerEnCola(cola, sizeof(camion), &camion);
-}
