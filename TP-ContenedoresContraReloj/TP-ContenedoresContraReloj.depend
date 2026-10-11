@@ -1,0 +1,47 @@
+# depslib dependency file v1.0
+1791685728 source:c:\users\estudiante\desktop\trabajo practico\tp-contenedorescontrareloj\main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"OpereacionesYComandos.h"
+
+1791686014 source:c:\users\estudiante\desktop\trabajo practico\tp-contenedorescontrareloj\operacionesycomandos.c
+	"OpereacionesYComandos.h"
+
+1791683379 c:\users\estudiante\desktop\trabajo practico\tp-contenedorescontrareloj\opereacionesycomandos.h
+	<string.h>
+	<stdio.h>
+	"cola.h"
+	"pila.h"
+	"Estructuras.h"
+	"lista.h"
+
+1791675176 c:\users\estudiante\desktop\trabajo practico\tp-contenedorescontrareloj\cola.h
+	<string.h>
+	<stdio.h>
+	<stdlib.h>
+	"Estructuras.h"
+
+1790717854 source:c:\users\estudiante\desktop\trabajo practico\tp-contenedorescontrareloj\cola.c
+	"cola.h"
+
+1791675959 c:\users\estudiante\desktop\trabajo practico\tp-contenedorescontrareloj\pila.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"Estructuras.h"
+
+1791675285 source:c:\users\estudiante\desktop\trabajo practico\tp-contenedorescontrareloj\pila.c
+	"pila.h"
+
+1791675666 c:\users\estudiante\desktop\trabajo practico\tp-contenedorescontrareloj\estructuras.h
+
+1791683487 source:c:\users\estudiante\desktop\trabajo practico\tp-contenedorescontrareloj\lista.c
+	"lista.h"
+
+1791683408 c:\users\estudiante\desktop\trabajo practico\tp-contenedorescontrareloj\lista.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"Estructuras.h"
+
