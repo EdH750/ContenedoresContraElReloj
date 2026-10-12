@@ -1,0 +1,128 @@
+# depslib dependency file v1.0
+1791685728 source:c:\users\estudiante\desktop\trabajo practico\tp-contenedorescontrareloj\main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"OpereacionesYComandos.h"
+
+1791686014 source:c:\users\estudiante\desktop\trabajo practico\tp-contenedorescontrareloj\operacionesycomandos.c
+	"OpereacionesYComandos.h"
+
+1791683379 c:\users\estudiante\desktop\trabajo practico\tp-contenedorescontrareloj\opereacionesycomandos.h
+	<string.h>
+	<stdio.h>
+	"cola.h"
+	"pila.h"
+	"Estructuras.h"
+	"lista.h"
+
+1791675176 c:\users\estudiante\desktop\trabajo practico\tp-contenedorescontrareloj\cola.h
+	<string.h>
+	<stdio.h>
+	<stdlib.h>
+	"Estructuras.h"
+
+1790717854 source:c:\users\estudiante\desktop\trabajo practico\tp-contenedorescontrareloj\cola.c
+	"cola.h"
+
+1791675959 c:\users\estudiante\desktop\trabajo practico\tp-contenedorescontrareloj\pila.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"Estructuras.h"
+
+1791675285 source:c:\users\estudiante\desktop\trabajo practico\tp-contenedorescontrareloj\pila.c
+	"pila.h"
+
+1791675666 c:\users\estudiante\desktop\trabajo practico\tp-contenedorescontrareloj\estructuras.h
+
+1791683487 source:c:\users\estudiante\desktop\trabajo practico\tp-contenedorescontrareloj\lista.c
+	"lista.h"
+
+1791683408 c:\users\estudiante\desktop\trabajo practico\tp-contenedorescontrareloj\lista.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"Estructuras.h"
+
+1791711799 source:d:\edu\uni\algoritmos\tp\contenedorescontraelreloj\tp-contenedorescontrareloj\cola.c
+	"cola.h"
+
+1791711799 d:\edu\uni\algoritmos\tp\contenedorescontraelreloj\tp-contenedorescontrareloj\cola.h
+	<string.h>
+	<stdio.h>
+	<stdlib.h>
+	"Estructuras.h"
+
+1791754961 d:\edu\uni\algoritmos\tp\contenedorescontraelreloj\tp-contenedorescontrareloj\estructuras.h
+
+1791756419 source:d:\edu\uni\algoritmos\tp\contenedorescontraelreloj\tp-contenedorescontrareloj\lista.c
+	"lista.h"
+
+1791715977 d:\edu\uni\algoritmos\tp\contenedorescontraelreloj\tp-contenedorescontrareloj\lista.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"Estructuras.h"
+
+1791711799 source:d:\edu\uni\algoritmos\tp\contenedorescontraelreloj\tp-contenedorescontrareloj\main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"OpereacionesYComandos.h"
+
+1791826717 d:\edu\uni\algoritmos\tp\contenedorescontraelreloj\tp-contenedorescontrareloj\opereacionesycomandos.h
+	<string.h>
+	<stdio.h>
+	"cola.h"
+	"pila.h"
+	"Estructuras.h"
+	"lista.h"
+
+1791711799 d:\edu\uni\algoritmos\tp\contenedorescontraelreloj\tp-contenedorescontrareloj\pila.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"Estructuras.h"
+
+1791711799 source:d:\edu\uni\algoritmos\tp\contenedorescontraelreloj\tp-contenedorescontrareloj\pila.c
+	"pila.h"
+
+1791827615 source:d:\edu\uni\algoritmos\tp\contenedorescontraelreloj\tp-contenedorescontrareloj\operacionesycomandos.c
+	"OpereacionesYComandos.h"
+
+1791828255 source:d:\edu\uni\algoritmos\tp\contenedorescontraelreloj\contenedorescontrareloj\main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"OpereacionesYComandos.h"
+
+1791828255 source:d:\edu\uni\algoritmos\tp\contenedorescontraelreloj\contenedorescontrareloj\tda\cola.c
+	"cola.h"
+
+1791828255 d:\edu\uni\algoritmos\tp\contenedorescontraelreloj\contenedorescontrareloj\tda\cola.h
+	<string.h>
+	<stdio.h>
+	<stdlib.h>
+	"Estructuras.h"
+
+1791828255 d:\edu\uni\algoritmos\tp\contenedorescontraelreloj\contenedorescontrareloj\tda\estructuras.h
+
+1791828255 source:d:\edu\uni\algoritmos\tp\contenedorescontraelreloj\contenedorescontrareloj\tda\lista.c
+	"lista.h"
+
+1791828255 d:\edu\uni\algoritmos\tp\contenedorescontraelreloj\contenedorescontrareloj\tda\lista.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"Estructuras.h"
+
+1791828255 source:d:\edu\uni\algoritmos\tp\contenedorescontraelreloj\contenedorescontrareloj\tda\pila.c
+	"pila.h"
+
+1791828255 d:\edu\uni\algoritmos\tp\contenedorescontraelreloj\contenedorescontrareloj\tda\pila.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"Estructuras.h"
+
