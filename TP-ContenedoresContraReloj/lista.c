@@ -133,7 +133,9 @@ int buscarEnListaSinBorrar(tLista* pl, void* dato, unsigned tam,int(*comp)(void*
     while(*pl && 0==comp(dato,(*pl)->info))
         pl=&(*pl)->sig;
     if(0==comp(dato,(*pl)->info)){
-        accion((*pl)->info);
+        if(accion)
+            accion((*pl)->info);
+        memcpy(dato,(*pl)->info,MIN(tam,(*pl)->tamInfo));
         return OK;
     }
     return NO_ENCONTRADO;

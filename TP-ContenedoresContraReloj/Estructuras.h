@@ -28,7 +28,7 @@ typedef struct
 {
     char id[8];
     int tLlegada;
-    tContenedor *manifiesto;
+    tPila manifiesto;
     int cantContenedores;
     int proxADescargar;
 }tBuque;
@@ -76,17 +76,17 @@ typedef tLista tHistorial;
 
 typedef struct
 {
-    tBuque *buques;
+    tLista buques;
     int cantBuques;
     int proxBuque;
-    tCamion *camiones;
+    tLista camiones;
     int cantCamiones;
     int proxCamion;
 }tEscenario;
 
 typedef struct
 {
-    tMuelle *muelles;
+    tLista muelles;
     int cantMuelles;
     tCola colaBuques;
     tCola colaCamiones;
