@@ -1,11 +1,15 @@
 # depslib dependency file v1.0
-1789778366 source:c:\users\martin\desktop\contenedores\contenedorescontraelreloj\contenedorescontrareloj\contenedorescontrareloj.c
+1791656290 source:c:\users\martin\desktop\contenedores\contenedorescontraelreloj\contenedorescontrareloj\contenedorescontrareloj.c
 	"ContenedoresContraReloj.h"
 
-1789781103 c:\users\martin\desktop\contenedores\contenedorescontraelreloj\contenedorescontrareloj\contenedorescontrareloj.h
+1791656292 c:\users\martin\desktop\contenedores\contenedorescontraelreloj\contenedorescontrareloj\contenedorescontrareloj.h
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
+	<time.h>
+	<ctype.h>
+	<errno.h>
+	<limits.h>
 
 1789781103 source:c:\users\martin\desktop\contenedores\contenedorescontraelreloj\contenedorescontrareloj\main.c
 	"ContenedoresContraReloj.h"
@@ -43,4 +47,43 @@
 
 1791074960 source:c:\users\martin palacios\desktop\contenedorescontrareloj\contenedorescontrareloj\escenario.c
 	"escenario.h"
+
+1791601687 source:c:\users\martin\desktop\contenedores\contenedorescontraelreloj\contenedorescontrareloj\cola.c
+	"cola.h"
+
+1791601687 c:\users\martin\desktop\contenedores\contenedorescontraelreloj\contenedorescontrareloj\cola.h
+	"nodo.h"
+
+1791601687 c:\users\martin\desktop\contenedores\contenedorescontraelreloj\contenedorescontrareloj\nodo.h
+	<stdlib.h>
+	<string.h>
+
+1791601687 source:c:\users\martin\desktop\contenedores\contenedorescontraelreloj\contenedorescontrareloj\escenario.c
+	"escenario.h"
+
+1791601687 c:\users\martin\desktop\contenedores\contenedorescontraelreloj\contenedorescontrareloj\escenario.h
+	"ContenedoresContraReloj.h"
+	"lista.h"
+
+1791601687 c:\users\martin\desktop\contenedores\contenedorescontraelreloj\contenedorescontrareloj\lista.h
+	"nodo.h"
+
+1791656307 source:c:\users\martin\desktop\contenedores\contenedorescontraelreloj\contenedorescontrareloj\jornada.c
+	"jornada.h"
+
+1791656308 c:\users\martin\desktop\contenedores\contenedorescontraelreloj\contenedorescontrareloj\jornada.h
+	"ContenedoresContraReloj.h"
+	"escenario.h"
+	"pila.h"
+	"cola.h"
+	"lista.h"
+
+1791601687 c:\users\martin\desktop\contenedores\contenedorescontraelreloj\contenedorescontrareloj\pila.h
+	"nodo.h"
+
+1791601687 source:c:\users\martin\desktop\contenedores\contenedorescontraelreloj\contenedorescontrareloj\lista.c
+	"lista.h"
+
+1791601687 source:c:\users\martin\desktop\contenedores\contenedorescontraelreloj\contenedorescontrareloj\pila.c
+	"pila.h"
 
