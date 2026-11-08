@@ -7,7 +7,8 @@
 #include "cola.h"
 #include "lista.h"
 
-#define MAX_COD_OPERACION 4
+#define LARGO_CODIGO      3
+#define MAX_COD_OPERACION (LARGO_CODIGO + 1)
 
 typedef struct {
     int    id;                           /* 1 = M1 */
@@ -84,5 +85,12 @@ int hay_buque_atracado(const tPuerto* pPuerto);
 void mostrar_puerto(const tJornada* pJornada);
 int crear_puerto(tPuerto* pPuerto, const tConfiguracion* pConfiguracion);
 void liberar_puerto(tPuerto* pPuerto);
+int proximo_tiempo_arribo(tJornada* pJornada);
+int hay_operacion_posible(tJornada* pJornada);
+int hay_ent_posible(tJornada* pJornada);
+int hay_reu_posible(tJornada* pJornada);
+int hay_des_posible(tJornada* pJornada);
+int validar_orden(tJornada* pJornada, const tOperacion* pOperacion, int cantParametros);
+int costo_operacion(const char* codigo, const tConfiguracion* cfg);
 
 #endif /* JORNADA_H_INCLUDED */

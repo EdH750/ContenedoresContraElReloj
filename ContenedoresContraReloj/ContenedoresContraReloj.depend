@@ -87,3 +87,55 @@
 1791601687 source:c:\users\martin\desktop\contenedores\contenedorescontraelreloj\contenedorescontrareloj\pila.c
 	"pila.h"
 
+1794168440 source:c:\users\estudiante\desktop\tp algoritmos\contenedorescontraelreloj\contenedorescontrareloj\cola.c
+	"cola.h"
+
+1794168440 c:\users\estudiante\desktop\tp algoritmos\contenedorescontraelreloj\contenedorescontrareloj\cola.h
+	"nodo.h"
+
+1794168440 c:\users\estudiante\desktop\tp algoritmos\contenedorescontraelreloj\contenedorescontrareloj\nodo.h
+	<stdlib.h>
+	<string.h>
+
+1794168440 source:c:\users\estudiante\desktop\tp algoritmos\contenedorescontraelreloj\contenedorescontrareloj\contenedorescontrareloj.c
+	"ContenedoresContraReloj.h"
+
+1794168440 c:\users\estudiante\desktop\tp algoritmos\contenedorescontraelreloj\contenedorescontrareloj\contenedorescontrareloj.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<time.h>
+	<ctype.h>
+	<errno.h>
+	<limits.h>
+
+1794168440 source:c:\users\estudiante\desktop\tp algoritmos\contenedorescontraelreloj\contenedorescontrareloj\escenario.c
+	"escenario.h"
+
+1794168440 c:\users\estudiante\desktop\tp algoritmos\contenedorescontraelreloj\contenedorescontrareloj\escenario.h
+	"ContenedoresContraReloj.h"
+	"lista.h"
+
+1794168440 c:\users\estudiante\desktop\tp algoritmos\contenedorescontraelreloj\contenedorescontrareloj\lista.h
+	"nodo.h"
+
+1794168440 source:c:\users\estudiante\desktop\tp algoritmos\contenedorescontraelreloj\contenedorescontrareloj\lista.c
+	"lista.h"
+
+1794168440 source:c:\users\estudiante\desktop\tp algoritmos\contenedorescontraelreloj\contenedorescontrareloj\main.c
+	"ContenedoresContraReloj.h"
+	"jornada.h"
+
+1794169361 c:\users\estudiante\desktop\tp algoritmos\contenedorescontraelreloj\contenedorescontrareloj\jornada.h
+	"ContenedoresContraReloj.h"
+	"escenario.h"
+	"pila.h"
+	"cola.h"
+	"lista.h"
+
+1794168440 c:\users\estudiante\desktop\tp algoritmos\contenedorescontraelreloj\contenedorescontrareloj\pila.h
+	"nodo.h"
+
+1794168440 source:c:\users\estudiante\desktop\tp algoritmos\contenedorescontraelreloj\contenedorescontrareloj\pila.c
+	"pila.h"
+
