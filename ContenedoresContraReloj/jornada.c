@@ -693,3 +693,55 @@ void liberar_jornada(tJornada* pJornada) {
     vaciar_lista(&pJornada->historial);
 }
 
+/* REU Zx Zy: mueve el contenedor del tope de la zona Zx al tope de la zona Zy */
+int ejecutar_reu(tJornada* pJornada, const tOperacion* pOperacion) {
+
+    int T_inicio;
+    int T_fin;
+    int idOrigen;
+    int idDestino;
+    tContenedor contenedor;
+    tOperacion registro;
+
+    T_inicio  = pJornada->tiempoActual;
+    T_fin     = T_inicio + pJornada->cfg.tiempoReubicacionContenedor;
+    idOrigen  = parsear_id_zona(pOperacion->origen);
+    idDestino = parsear_id_zona(pOperacion->destino);
+
+    /* Paso 1 */
+    if(T_fin - T_inicio > 1) {
+        if(procesar_arribos(pJornada, T_fin - 1) == 0) return 0;
+        asignar_muelles(&pJornada->puerto);
+    }
+
+    /* Paso 2: sacar el contenedor de la zona origen y ponerlo en la zona destino */
+    desapilar_de_zona(&pJornada->puerto.zonas, idOrigen, &contenedor);
+
+    if(apilar_en_zona(&pJornada->puerto.zonas, idDestino, &contenedor) == 0) {
+        /* Recovery: si falla el malloc al apilar en destino, devolver a origen */
+        apilar_en_zona(&pJornada->puerto.zonas, idOrigen, &contenedor);
+        return 0;
+    }
+
+    pJornada->resumen.reubicaciones++;
+    printf("REU: %s de Z%d -> Z%d\n", contenedor.codigo, idOrigen, idDestino);
+
+    /* Pasos 3 y 4 */
+    if(procesar_arribos(pJornada, T_fin) == 0) return 0;
+    asignar_muelles(&pJornada->puerto);
+
+    /* Paso 5 */
+    registro.tiempoInicio = T_inicio;
+    registro.tiempoFin    = T_fin;
+    strcpy(registro.codigo, "REU");
+    registro.contenedor   = contenedor;
+    sprintf(registro.origen,  "Z%d", idOrigen);
+    sprintf(registro.destino, "Z%d", idDestino);
+
+    pJornada->tiempoActual = T_fin;
+
+    if(enlistar_final(&pJornada->historial, &registro, sizeof(tOperacion)) == 0) return 0;
+
+    evaluar_estado(pJornada);
+    return 1;
+}
