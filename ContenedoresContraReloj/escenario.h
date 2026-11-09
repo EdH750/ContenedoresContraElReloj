@@ -2,7 +2,7 @@
 #define ESCENARIO_H_INCLUDED
 
 #include "ContenedoresContraReloj.h"
-#include "lista.h"
+#include "../TDA/lista.h"
 
 #define MAX_ID 8
 

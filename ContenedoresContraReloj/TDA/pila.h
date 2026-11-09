@@ -1,23 +1,16 @@
 #ifndef PILA_H_INCLUDED
 #define PILA_H_INCLUDED
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include "Estructuras.h"
+#include "nodo.h"
 
-#define SIN_MEM 1
-#define TODO_OK 2
-#define PILA_VACIA 3
+typedef tNodo* tPila;
 
-#define MINIMO(X,Y) ( (X)<= (Y) ? (X) : (Y) )
+void crear_pila(tPila* pp);
+void vaciar_pila(tPila* pp);
+int apilar(tPila* pp, const void* elem, unsigned tamElem);
+int desapilar(tPila* pp, void* elem, unsigned tamElem);
+int ver_tope(const tPila* pp, void* elem, unsigned tamElem);
+int pila_llena(const tPila* pp, unsigned tamElem);
+int pila_vacia(const tPila* pp);
 
-void CrearPila(tPila* p);
-int PilaLlena(const tPila* p, unsigned tam);
-int PonerEnPila(tPila* p, unsigned tam, void* dato);
-int VerTope(const tPila* p, unsigned tam, void* dato);
-int PilaVacia(const tPila* p);
-int SacarDePila(tPila* p, unsigned tam, void* dato);
-void VaciarPila(tPila* p);
-
-#endif // PILA_H_INCLUDED
+#endif /* PILA_H_INCLUDED */

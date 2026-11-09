@@ -1,88 +1,103 @@
 #include "cola.h"
 
-void CrearCola(tCola* c)
-{
-    c->primero = NULL;
-    c->ultimo = NULL;
+void crear_cola(tCola* pc) {
+
+    pc->pri = NULL;
+    pc->ult = NULL;
+
 }
 
-int ColaLlena(const tCola* c, unsigned tam)
-{
-    tNodo* aux = (tNodo*)malloc(sizeof(tNodo));
+void vaciar_cola(tCola* pc) {
 
-    if(aux==NULL)
-        return ERROR_MEM;
+    tNodo* aux;
 
-    void* info = malloc(tam);
+    while(pc->pri) {
 
-    if(info == NULL)
-    {
-        free(aux);
-        return ERROR_MEM;
-    }
-
-    return aux == NULL || info == NULL;
-}
-
-int PonerEnCola(tCola* c, unsigned tam, const void* dato)
-{
-    tNodo* nuevo = (tNodo*)malloc(sizeof(tNodo));
-
-    if(nuevo == NULL)
-        return ERROR_MEM;
-    nuevo->info = malloc(tam);
-    if(nuevo->info == NULL)
-    {
-        free(nuevo);
-        return ERROR_MEM;
-    }
-    memcpy(nuevo->info, dato, tam);
-    nuevo->tamInfo = tam;
-    nuevo->sig = NULL;
-    if(c->ultimo)
-        c->ultimo->sig = nuevo;
-    else
-        c->primero = nuevo;
-    c->ultimo = nuevo;
-
-    return OK;
-}
-
-int VerPrimeroEnCola(const tCola* c, unsigned tam, void* dato)
-{
-    if(c->primero == NULL)
-        return COLA_VACIA;
-    memcpy(dato, c->primero->info, MIN(tam, c->primero->tamInfo));
-    return OK;
-}
-
-int ColaVacia(const tCola* c)
-{
-    return c->primero == NULL;
-}
-
-int SacarDeLaCola(tCola* c, unsigned tam, void* dato)
-{
-    tNodo* aux = c->primero;
-    if(aux == NULL)
-        return COLA_VACIA;
-    c->primero = aux->sig;
-    memcpy(dato, aux->info, MIN(aux->tamInfo, tam));
-    free(aux->info);
-    free(aux);
-    if(c->primero == NULL)
-        c->ultimo = NULL;
-    return OK;
-}
-
-void VaciarCola(tCola* c)
-{
-    while(c->primero != NULL)
-    {
-        tNodo* aux = c->primero;
-        c->primero = aux->sig;
+        aux = pc->pri;
+        pc->pri = aux->sig;
         free(aux->info);
         free(aux);
+
     }
-    c->ultimo = NULL;
+    pc->ult = NULL;
 }
+
+int encolar(tCola* pc, const void* elem, unsigned tamElem) {
+
+    tNodo* nue;
+
+    if((nue = (tNodo*)malloc(sizeof(tNodo))) == NULL || (nue->info = malloc(tamElem)) == NULL) {
+        free(nue);
+        return 0;
+    }
+
+    memcpy(nue->info, elem, tamElem);
+    nue->tamInfo = tamElem;
+    nue->sig = NULL;
+
+    if(pc->ult != NULL) {
+        pc->ult->sig = nue;
+    } else {
+        pc->pri = nue;
+    }
+
+    pc->ult = nue;
+
+    return 1;
+}
+
+int desencolar(tCola* pc, void* elem, unsigned tamElem) {
+
+    tNodo* aux;
+
+    if(pc->pri == NULL) {
+        return 0;
+    }
+
+    aux = pc->pri;
+    pc->pri = aux->sig;
+
+    memcpy(elem, aux->info, MINIMO(tamElem, aux->tamInfo));
+
+    if(pc->pri == NULL) {
+        pc->ult = NULL;
+    }
+
+    free(aux->info);
+    free(aux);
+
+    return 1;
+}
+
+int ver_primero_cola(const tCola* pc, void* elem, unsigned tamElem) {
+
+    if(pc->pri == NULL) {
+        return 0;
+    }
+
+    memcpy(elem, pc->pri->info, MINIMO(tamElem, pc->pri->tamInfo));
+
+    return 1;
+}
+
+int cola_llena(const tCola* pc, unsigned tamElem) {
+
+    tNodo* aux;
+    void* elem;
+
+    aux = (tNodo*)malloc(sizeof(tNodo));
+    elem = malloc(tamElem);
+
+    free(aux);
+    free(elem);
+
+    return aux == NULL || elem == NULL;
+}
+
+int cola_vacia(const tCola* pc) {
+
+    return pc->pri == NULL;
+
+}
+
+

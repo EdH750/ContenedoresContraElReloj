@@ -1,142 +1,95 @@
 #include "lista.h"
 
-void CrearLista(tLista* l)
-{
-    *l = NULL;
+void crear_lista(tLista* pl) {
+
+    *pl = NULL;
+
 }
 
-int ListaVacia(const tLista* l)
-{
-    return *l == NULL;
-}
+void vaciar_lista(tLista* pl) {
 
-int ListaLlena(const tLista* l, unsigned tam)
-{
-    tNodo* aux = (tNodo*)malloc(sizeof(tNodo));
-    if(aux == NULL)
-        return ERROR_MEM;
-    void *info = malloc(tam);
-    if(info == NULL)
-    {
-        free(aux);
-        return ERROR_MEM;
-    }
-    free(aux);
-    free(info);
+    tNodo* aux;
 
-    return aux == NULL || info == NULL;
-}
+    while(*pl) {
 
-void VaciarLista(tLista* l)
-{
-    while(*l != NULL)
-    {
-        tNodo *aux = *l;
-        *l = aux->sig;
+        aux = *pl;
+        *pl = aux->sig;
         free(aux->info);
         free(aux);
-    }
-}
 
-int PonerAlComienzo(tLista* l, unsigned tam, const void* dato)
-{
-    tNodo* nuevo = (tNodo*)malloc(sizeof(tNodo));
-    if(nuevo == NULL)
-        return ERROR_MEM;
-    nuevo->info = malloc(tam);
-    if(nuevo->info == NULL)
-    {
-        free(nuevo);
-        return ERROR_MEM;
     }
 
-    memcpy(nuevo->info, dato, tam);
-    nuevo->tamInfo = tam;
-    nuevo->sig = *l;
-    *l = nuevo;
-    return OK;
 }
 
-int SacarPrimeroLista(tLista* l, unsigned tam, void* dato)
-{
-    tNodo* aux = *l;
+int enlistar_final(tLista* pl, const void* elem, unsigned tamElem) {
 
-    if(aux == NULL)
-        return LISTA_VACIA;
+    tNodo* nue;
 
-    *l = aux->sig;
-    memcpy(dato, aux->info, MIN(tam, aux->tamInfo));
+    while(*pl) {
+        pl = &(*pl)->sig;
+    }
+
+    if((nue = (tNodo*)malloc(sizeof(tNodo))) == NULL || (nue->info = malloc(tamElem)) == NULL) {
+        free(nue);
+        return 0;
+    }
+
+    memcpy(nue->info, elem, tamElem);
+    nue->tamInfo = tamElem;
+    nue->sig = NULL;
+
+    *pl = nue;
+
+    return 1;
+}
+
+int desenlistar_inicio(tLista* pl, void* elem, unsigned tamElem) {
+
+    tNodo* aux;
+
+    if(*pl == NULL) {
+        return 0;
+    }
+
+    aux = *pl;
+    *pl = aux->sig;
+
+    memcpy(elem, aux->info, MINIMO(tamElem, aux->tamInfo));
+
     free(aux->info);
     free(aux);
-    return OK;
+
+    return 1;
 }
 
-int VerPrimeroLista(const tLista* l, unsigned tam, void* dato)
-{
-    if(*l == NULL)
-        return LISTA_VACIA;
-    memcpy(dato, (*l)->info, MIN(tam, (*l)->tamInfo));
-    return OK;
-}
+int ver_primero_lista(const tLista* pl, void* elem, unsigned tamElem) {
 
-int PonerAlFinal(tLista* l, unsigned tam, const void* dato)
-{
-    tNodo* nuevo;
-
-    while(*l != NULL)
-        l = &(*l)->sig;
-    nuevo = (tNodo*)malloc(sizeof(tNodo));
-    if(nuevo == NULL)
-        return ERROR_MEM;
-    nuevo->info=malloc(tam);
-    if(nuevo->info == NULL)
-    {
-        free(nuevo);
-        return ERROR_MEM;
+    if(*pl == NULL) {
+        return 0;
     }
-    memcpy(nuevo->info, dato, tam);
-    nuevo->tamInfo = tam;
-    nuevo->sig = NULL;
-    *l = nuevo;
-    return OK;
+
+    memcpy(elem, (*pl)->info, MINIMO(tamElem, (*pl)->tamInfo));
+
+    return 1;
 }
 
-int SacarUltimoLista(tLista* l, unsigned tam, void* dato)
-{
-    if(*l == NULL)
-        return LISTA_VACIA;
+int lista_llena(const tLista* pl, unsigned tamElem) {
 
-    while((*l)->sig)
-        l=&(*l)->sig;
-    memcpy(dato, (*l)->info, MIN(tam, (*l)->tamInfo));
-    return OK;
+    tNodo* aux;
+    void* elem;
+
+    aux = (tNodo*)malloc(sizeof(tNodo));
+    elem = malloc(tamElem);
+
+    free(aux);
+    free(elem);
+
+    return aux == NULL || elem == NULL;
 }
 
-int VerUltimoLista(const tLista* l, unsigned tam, void* dato)
-{
-    if(*l == NULL)
-        return LISTA_VACIA;
-    while((*l)->sig)
-        l=&(*l)->sig;
-    memcpy(dato, (*l)->info, MIN(tam, (*l)->tamInfo));
-    return OK;
+int lista_vacia(const tLista* pl) {
+
+    return *pl == NULL;
+
 }
 
-/*---------------------------------------------------*/
-/* Busca un unico elemento en una lista no ordenada y
-    le aplica una accion sin borrar el nodo si lo
-    encuentra*/
-/*---------------------------------------------------*/
-
-int buscarEnListaSinBorrar(tLista* pl, void* dato, unsigned tam,int(*comp)(void*,void*),void (*accion)(void*)){
-
-    while(*pl && 0==comp(dato,(*pl)->info))
-        pl=&(*pl)->sig;
-    if(0==comp(dato,(*pl)->info)){
-        if(accion)
-            accion((*pl)->info);
-        memcpy(dato,(*pl)->info,MIN(tam,(*pl)->tamInfo));
-        return OK;
-    }
-    return NO_ENCONTRADO;
-}

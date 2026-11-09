@@ -139,3 +139,37 @@
 1794168440 source:c:\users\estudiante\desktop\tp algoritmos\contenedorescontraelreloj\contenedorescontrareloj\pila.c
 	"pila.h"
 
+1794187228 source:d:\edu\uni\algoritmos\tp\contenedorescontraelreloj\contenedorescontrareloj\contenedorescontrareloj.c
+	"ContenedoresContraReloj.h"
+
+1794187228 d:\edu\uni\algoritmos\tp\contenedorescontraelreloj\contenedorescontrareloj\contenedorescontrareloj.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<time.h>
+	<ctype.h>
+	<errno.h>
+	<limits.h>
+
+1794187228 source:d:\edu\uni\algoritmos\tp\contenedorescontraelreloj\contenedorescontrareloj\tda\cola.c
+	"cola.h"
+
+1794187228 d:\edu\uni\algoritmos\tp\contenedorescontraelreloj\contenedorescontrareloj\tda\cola.h
+	"nodo.h"
+
+1794187228 d:\edu\uni\algoritmos\tp\contenedorescontraelreloj\contenedorescontrareloj\tda\nodo.h
+	<stdlib.h>
+	<string.h>
+
+1794187228 source:d:\edu\uni\algoritmos\tp\contenedorescontraelreloj\contenedorescontrareloj\tda\lista.c
+	"lista.h"
+
+1794187228 d:\edu\uni\algoritmos\tp\contenedorescontraelreloj\contenedorescontrareloj\tda\lista.h
+	"nodo.h"
+
+1794187228 source:d:\edu\uni\algoritmos\tp\contenedorescontraelreloj\contenedorescontrareloj\tda\pila.c
+	"pila.h"
+
+1794187228 d:\edu\uni\algoritmos\tp\contenedorescontraelreloj\contenedorescontrareloj\tda\pila.h
+	"nodo.h"
+

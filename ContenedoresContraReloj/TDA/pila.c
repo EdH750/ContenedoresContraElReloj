@@ -1,80 +1,90 @@
 #include "pila.h"
 
-void CrearPila(tPila* p)
-{
-    *p=NULL;
+void crear_pila(tPila* pp) {
+
+    *pp = NULL;
+
 }
 
-int PilaLlena(const tPila* p, unsigned tam)
-{
-    tNodo *aux = (tNodo*)malloc(sizeof(tNodo));
-    void *info = malloc(tam);
+void vaciar_pila(tPila* pp) {
 
-    free(aux);
-    free(info);
+    tNodo* aux;
 
-    return aux == NULL || info == NULL;
-}
+    while(*pp) {
 
-int PonerEnPila(tPila* p, unsigned tam, void* dato)
-{
-    tNodo* nuevo;
-    nuevo = (tNodo*)malloc(sizeof(tNodo));
+        aux = *pp;
+        *pp = aux->sig;
+        free(aux->info);
+        free(aux);
 
-    if(nuevo == NULL)
-        return SIN_MEM;
-
-    nuevo->info = malloc(tam);
-
-    if(nuevo->info == NULL)
-    {
-        free(nuevo);
-        return SIN_MEM;
     }
 
-    memcpy(nuevo->info, dato, tam);
-    nuevo->tamInfo = tam;
-    nuevo->sig = *p;
-    *p = nuevo;
-
-    return TODO_OK;
 }
 
-int VerTope(const tPila* p, unsigned tam, void* dato)
-{
-    if(*p == NULL)
-        return PILA_VACIA;
+int apilar(tPila* pp, const void* elem, unsigned tamElem) {
 
-    memcpy(dato, (*p)->info, MINIMO(tam, (*p)->tamInfo));
-    return TODO_OK;
+    tNodo* nue;
+
+    if((nue = (tNodo*)malloc(sizeof(tNodo))) == NULL || (nue->info = malloc(tamElem)) == NULL) {
+        free(nue);
+        return 0;
+    }
+
+    memcpy(nue->info, elem, tamElem);
+    nue->tamInfo = tamElem;
+    nue->sig = *pp;
+
+    *pp = nue;
+
+    return 1;
 }
 
-int PilaVacia(const tPila* p)
-{
-    return *p == NULL;
-}
+int desapilar(tPila* pp, void* elem, unsigned tamElem) {
 
-int SacarDePila(tPila* p, unsigned tam, void* dato)
-{
-    tNodo* aux = *p;
+    tNodo* aux;
 
-    if(aux == NULL)
-        return PILA_VACIA;
-    *p = aux->sig;
-    memcpy(dato, aux->info, MINIMO(tam, aux->tamInfo));
+    if(*pp == NULL) {
+        return 0;
+    }
+
+    aux = *pp;
+    *pp = aux->sig;
+
+    memcpy(elem, aux->info, MINIMO(tamElem, aux->tamInfo));
+
     free(aux->info);
     free(aux);
 
-    return TODO_OK;
+    return 1;
 }
 
-void VaciarPila(tPila* p)
-{
-    while(*p != NULL)
-    {
-        tNodo* aux = *p;
-        *p = aux->sig;
-        free(aux->info);
-        free(aux);
+int ver_tope(const tPila* pp, void* elem, unsigned tamElem) {
+
+    if(*pp == NULL) {
+        return 0;
     }
+
+    memcpy(elem, (*pp)->info, MINIMO(tamElem, (*pp)->tamInfo));
+
+    return 1;
+}
+
+int pila_llena(const tPila* pp, unsigned tamElem) {
+
+    tNodo* aux;
+    void* elem;
+
+    aux = (tNodo*)malloc(sizeof(tNodo));
+    elem = malloc(tamElem);
+
+    free(aux);
+    free(elem);
+
+    return aux == NULL || elem == NULL;
+}
+
+int pila_vacia(const tPila* pp) {
+
+    return *pp == NULL;
+
 }

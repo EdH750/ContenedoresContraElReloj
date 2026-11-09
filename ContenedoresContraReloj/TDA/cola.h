@@ -1,22 +1,21 @@
 #ifndef COLA_H_INCLUDED
 #define COLA_H_INCLUDED
 
-#define MIN(X,Y) ((X)<=(Y)?(X):(Y))
-#define ERROR_MEM 2
-#define OK 3
-#define COLA_VACIA 4
+#include "nodo.h"
 
-#include <string.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include "Estructuras.h"
+typedef struct {
 
-void CrearCola(tCola* c);
-int ColaLlena(const tCola* c, unsigned tam);
-int PonerEnCola(tCola* c, unsigned tam, const void* dato);
-int VerPrimeroEnCola(const tCola* c, unsigned tam, void* dato);
-int ColaVacia(const tCola* c);
-int SacarDeLaCola(tCola* c, unsigned tam, void* dato);
-void VaciarCola(tCola* c);
+    tNodo* pri;
+    tNodo* ult;
 
-#endif // COLA_H_INCLUDED
+}tCola;
+
+void crear_cola(tCola* pc);
+void vaciar_cola(tCola* pc);
+int encolar(tCola* pc, const void* elem, unsigned tamElem);
+int desencolar(tCola* pc, void* elem, unsigned tamElem);
+int ver_primero_cola(const tCola* pc, void* elem, unsigned tamElem);
+int cola_llena(const tCola* pc, unsigned tamElem);
+int cola_vacia(const tCola* pc);
+
+#endif /* COLA_H_INCLUDED */
