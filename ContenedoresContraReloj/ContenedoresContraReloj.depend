@@ -139,3 +139,70 @@
 1794168440 source:c:\users\estudiante\desktop\tp algoritmos\contenedorescontraelreloj\contenedorescontrareloj\pila.c
 	"pila.h"
 
+1794187228 source:d:\edu\uni\algoritmos\tp\contenedorescontraelreloj\contenedorescontrareloj\contenedorescontrareloj.c
+	"ContenedoresContraReloj.h"
+
+1794187228 d:\edu\uni\algoritmos\tp\contenedorescontraelreloj\contenedorescontrareloj\contenedorescontrareloj.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<time.h>
+	<ctype.h>
+	<errno.h>
+	<limits.h>
+
+1794187228 source:d:\edu\uni\algoritmos\tp\contenedorescontraelreloj\contenedorescontrareloj\tda\cola.c
+	"cola.h"
+
+1794187228 d:\edu\uni\algoritmos\tp\contenedorescontraelreloj\contenedorescontrareloj\tda\cola.h
+	"nodo.h"
+
+1794187228 d:\edu\uni\algoritmos\tp\contenedorescontraelreloj\contenedorescontrareloj\tda\nodo.h
+	<stdlib.h>
+	<string.h>
+
+1794190423 source:d:\edu\uni\algoritmos\tp\contenedorescontraelreloj\contenedorescontrareloj\tda\lista.c
+	"lista.h"
+
+1794188489 d:\edu\uni\algoritmos\tp\contenedorescontraelreloj\contenedorescontrareloj\tda\lista.h
+	"nodo.h"
+
+1794187228 source:d:\edu\uni\algoritmos\tp\contenedorescontraelreloj\contenedorescontrareloj\tda\pila.c
+	"pila.h"
+
+1794187228 d:\edu\uni\algoritmos\tp\contenedorescontraelreloj\contenedorescontrareloj\tda\pila.h
+	"nodo.h"
+
+1794187228 source:d:\edu\uni\algoritmos\tp\contenedorescontraelreloj\contenedorescontrareloj\escenario.c
+	"escenario.h"
+
+1794190380 d:\edu\uni\algoritmos\tp\contenedorescontraelreloj\contenedorescontrareloj\escenario.h
+	"ContenedoresContraReloj.h"
+	"TDA/lista.h"
+
+1794190330 source:d:\edu\uni\algoritmos\tp\contenedorescontraelreloj\contenedorescontrareloj\jornada.c
+	"jornada.h"
+
+1794189360 d:\edu\uni\algoritmos\tp\contenedorescontraelreloj\contenedorescontrareloj\jornada.h
+	"ContenedoresContraReloj.h"
+	"escenario.h"
+	"TDA/pila.h"
+	"TDA/cola.h"
+	"TDA/lista.h"
+
+1794187439 source:d:\edu\uni\algoritmos\tp\contenedorescontraelreloj\contenedorescontrareloj\main.c
+	"ContenedoresContraReloj.h"
+	"jornada.h"
+
+1794240346 source:d:\edu\uni\algoritmos\tp\contenedorescontraelreloj\contenedorescontrareloj\operador.c
+	"operador.h"
+	"TDA/abb.h"
+
+1794190115 d:\edu\uni\algoritmos\tp\contenedorescontraelreloj\contenedorescontrareloj\operador.h
+	"jornada.h"
+
+1794190114 d:\edu\uni\algoritmos\tp\contenedorescontraelreloj\contenedorescontrareloj\tda\abb.h
+	<stdio.h>
+	<string.h>
+	<stdlib.h>
+
