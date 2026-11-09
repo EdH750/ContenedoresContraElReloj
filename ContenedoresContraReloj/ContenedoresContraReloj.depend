@@ -194,3 +194,15 @@
 	"ContenedoresContraReloj.h"
 	"jornada.h"
 
+1794240346 source:d:\edu\uni\algoritmos\tp\contenedorescontraelreloj\contenedorescontrareloj\operador.c
+	"operador.h"
+	"TDA/abb.h"
+
+1794190115 d:\edu\uni\algoritmos\tp\contenedorescontraelreloj\contenedorescontrareloj\operador.h
+	"jornada.h"
+
+1794190114 d:\edu\uni\algoritmos\tp\contenedorescontraelreloj\contenedorescontrareloj\tda\abb.h
+	<stdio.h>
+	<string.h>
+	<stdlib.h>
+
