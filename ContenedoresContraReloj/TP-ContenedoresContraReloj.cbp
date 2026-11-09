@@ -2,12 +2,12 @@
 <CodeBlocks_project_file>
 	<FileVersion major="1" minor="6" />
 	<Project>
-		<Option title="TP-ContenedoresContraReloj" />
+		<Option title="ContenedoresContraReloj" />
 		<Option pch_mode="2" />
 		<Option compiler="gcc" />
 		<Build>
 			<Target title="Debug">
-				<Option output="bin/Debug/TP-ContenedoresContraReloj" prefix_auto="1" extension_auto="1" />
+				<Option output="bin/Debug/ContenedoresContraReloj" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj/Debug/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
@@ -16,7 +16,7 @@
 				</Compiler>
 			</Target>
 			<Target title="Release">
-				<Option output="bin/Release/TP-ContenedoresContraReloj" prefix_auto="1" extension_auto="1" />
+				<Option output="bin/Release/ContenedoresContraReloj" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj/Release/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
@@ -31,19 +31,27 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
-		<Unit filename="Estructuras.h" />
-		<Unit filename="OperacionesYComandos.c">
+		<Unit filename="ContenedoresContraReloj.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="OpereacionesYComandos.h" />
+		<Unit filename="ContenedoresContraReloj.h" />
 		<Unit filename="cola.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="cola.h" />
+		<Unit filename="escenario.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="escenario.h" />
+		<Unit filename="jornada.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="jornada.h" />
 		<Unit filename="lista.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="lista.h" />
+		<Unit filename="nodo.h" />
 		<Unit filename="main.c">
 			<Option compilerVar="CC" />
 		</Unit>
