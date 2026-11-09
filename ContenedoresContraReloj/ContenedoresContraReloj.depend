@@ -161,10 +161,10 @@
 	<stdlib.h>
 	<string.h>
 
-1794187228 source:d:\edu\uni\algoritmos\tp\contenedorescontraelreloj\contenedorescontrareloj\tda\lista.c
+1794190423 source:d:\edu\uni\algoritmos\tp\contenedorescontraelreloj\contenedorescontrareloj\tda\lista.c
 	"lista.h"
 
-1794187228 d:\edu\uni\algoritmos\tp\contenedorescontraelreloj\contenedorescontrareloj\tda\lista.h
+1794188489 d:\edu\uni\algoritmos\tp\contenedorescontraelreloj\contenedorescontrareloj\tda\lista.h
 	"nodo.h"
 
 1794187228 source:d:\edu\uni\algoritmos\tp\contenedorescontraelreloj\contenedorescontrareloj\tda\pila.c
@@ -172,4 +172,25 @@
 
 1794187228 d:\edu\uni\algoritmos\tp\contenedorescontraelreloj\contenedorescontrareloj\tda\pila.h
 	"nodo.h"
+
+1794187228 source:d:\edu\uni\algoritmos\tp\contenedorescontraelreloj\contenedorescontrareloj\escenario.c
+	"escenario.h"
+
+1794190380 d:\edu\uni\algoritmos\tp\contenedorescontraelreloj\contenedorescontrareloj\escenario.h
+	"ContenedoresContraReloj.h"
+	"TDA/lista.h"
+
+1794190330 source:d:\edu\uni\algoritmos\tp\contenedorescontraelreloj\contenedorescontrareloj\jornada.c
+	"jornada.h"
+
+1794189360 d:\edu\uni\algoritmos\tp\contenedorescontraelreloj\contenedorescontrareloj\jornada.h
+	"ContenedoresContraReloj.h"
+	"escenario.h"
+	"TDA/pila.h"
+	"TDA/cola.h"
+	"TDA/lista.h"
+
+1794187439 source:d:\edu\uni\algoritmos\tp\contenedorescontraelreloj\contenedorescontrareloj\main.c
+	"ContenedoresContraReloj.h"
+	"jornada.h"
 

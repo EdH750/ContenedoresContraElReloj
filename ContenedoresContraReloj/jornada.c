@@ -693,6 +693,81 @@ void liberar_jornada(tJornada* pJornada) {
     vaciar_lista(&pJornada->historial);
 }
 
+int crear_puerto(tPuerto* pPuerto, const tConfiguracion* pConfiguracion) {
+
+    int i;
+    tZona zona;
+
+    pPuerto->cantMuelles = pConfiguracion->cantidadMuelles;
+    pPuerto->muelles     = (tMuelle*)malloc(pPuerto->cantMuelles * sizeof(tMuelle));
+
+    if(pPuerto->muelles == NULL) {
+        printf("Error al reservar memoria para los muelles\n");
+        pPuerto->cantMuelles = 0;
+        return 0;
+    }
+
+    for(i = 0; i < pPuerto->cantMuelles; i++) {
+        pPuerto->muelles[i].id      = i + 1;
+        pPuerto->muelles[i].ocupado = 0;
+    }
+
+    crear_cola(&pPuerto->colaBuques);
+    crear_cola(&pPuerto->colaCamiones);
+    crear_lista(&pPuerto->zonas);
+
+    pPuerto->buquesEnEspera   = 0;
+    pPuerto->camionesEnEspera = 0;
+
+    for(i = 0; i < pConfiguracion->cantidadZonasAlmacenamiento; i++) {
+
+        zona.id       = i + 1;
+        zona.cantidad = 0;
+        zona.capacidad = pConfiguracion->capacidadPila;
+        crear_pila(&zona.pila);
+
+        if(enlistar_final(&pPuerto->zonas, &zona, sizeof(tZona)) == 0) {
+            printf("Error al reservar memoria para las zonas de almacenamiento\n");
+            liberar_puerto(pPuerto);
+            return 0;
+        }
+    }
+
+    return 1;
+}
+
+void liberar_puerto(tPuerto* pPuerto) {
+
+    int i;
+    tBuque buque;
+    tZona zona;
+
+    for(i = 0; i < pPuerto->cantMuelles; i++) {
+        if(pPuerto->muelles[i].ocupado == 1) {
+            free(pPuerto->muelles[i].buque.manifiesto);
+        }
+    }
+
+    free(pPuerto->muelles);
+
+    pPuerto->muelles     = NULL;
+    pPuerto->cantMuelles = 0;
+
+    /* vaciar_cola no libera el manifiesto que esta dentro de cada tBuque */
+    while(desencolar(&pPuerto->colaBuques, &buque, sizeof(tBuque)) == 1) {
+        free(buque.manifiesto);
+    }
+
+    vaciar_cola(&pPuerto->colaCamiones);
+
+    pPuerto->buquesEnEspera   = 0;
+    pPuerto->camionesEnEspera = 0;
+
+    /* vaciar_lista no libera los nodos de la pila que esta dentro de cada tZona */
+    while(desenlistar_inicio(&pPuerto->zonas, &zona, sizeof(tZona)) == 1) {
+        vaciar_pila(&zona.pila);
+    }
+}
 /* REU Zx Zy: mueve el contenedor del tope de la zona Zx al tope de la zona Zy */
 int ejecutar_reu(tJornada* pJornada, const tOperacion* pOperacion) {
 
@@ -744,4 +819,688 @@ int ejecutar_reu(tJornada* pJornada, const tOperacion* pOperacion) {
 
     evaluar_estado(pJornada);
     return 1;
+}
+
+
+/* Mueve del escenario al puerto todo lo que tenga tiempoLlegada <= tiempoLimite.
+   Primero los buques y despues los camiones, cada uno en el orden de puerto.txt */
+int procesar_arribos(tJornada* pJornada, int tiempoLimite) {
+
+    tBuque buque;
+    tCamion camion;
+    tEscenario* pEscenario = &pJornada->escenario;
+    tPuerto* pPuerto       = &pJornada->puerto;
+
+    /* Las listas estan ordenadas por tiempoLlegada: alcanza con mirar el primero */
+    while(ver_primero_lista(&pEscenario->buques, &buque, sizeof(tBuque)) == 1 &&
+          buque.tiempoLlegada <= tiempoLimite) {
+
+        desenlistar_inicio(&pEscenario->buques, &buque, sizeof(tBuque));
+
+        if(arribo_buque(pPuerto, &buque) == 0) {
+            /* El buque ya salio de la lista y no entro a la cola: su manifiesto es de esta funcion */
+            free(buque.manifiesto);
+            printf("Error al reservar memoria para la cola de buques\n");
+            return 0;
+        }
+    }
+
+    while(ver_primero_lista(&pEscenario->camiones, &camion, sizeof(tCamion)) == 1 &&
+          camion.tiempoLlegada <= tiempoLimite) {
+
+        desenlistar_inicio(&pEscenario->camiones, &camion, sizeof(tCamion));
+
+        if(encolar(&pPuerto->colaCamiones, &camion, sizeof(tCamion)) == 0) {
+            printf("Error al reservar memoria para la cola de camiones\n");
+            return 0;
+        }
+
+        pPuerto->camionesEnEspera++;
+        printf("Arribo %s (pide %s): espera en la cola de camiones\n", camion.id, camion.pedido.codigo);
+    }
+
+    return 1;
+}
+
+/* Atraca en el muelle libre de menor id; si no hay, va a la cola de espera */
+int arribo_buque(tPuerto* pPuerto, const tBuque* pBuque) {
+
+    int i = -1;
+
+    /* Con buques esperando, el que llega va detras aunque haya un muelle libre */
+    if(cola_vacia(&pPuerto->colaBuques)) {
+        i = buscar_muelle_libre(pPuerto);
+    }
+
+    if(i != -1) {
+        pPuerto->muelles[i].buque   = *pBuque;
+        pPuerto->muelles[i].ocupado = 1;
+        printf("Arribo %s: atraca en M%d\n", pBuque->id, pPuerto->muelles[i].id);
+        return 1;
+    }
+
+    if(encolar(&pPuerto->colaBuques, pBuque, sizeof(tBuque)) == 0) {
+        return 0;
+    }
+
+    pPuerto->buquesEnEspera++;
+    printf("Arribo %s: no hay muelle libre, espera en la cola de buques\n", pBuque->id);
+
+    return 1;
+}
+
+/* Pasa buques de la cola a los muelles libres, en orden de llegada y de menor id de muelle */
+void asignar_muelles(tPuerto* pPuerto) {
+
+    int i;
+
+    i = buscar_muelle_libre(pPuerto);
+
+    while(i != -1 && desencolar(&pPuerto->colaBuques, &pPuerto->muelles[i].buque, sizeof(tBuque)) == 1) {
+
+        pPuerto->muelles[i].ocupado = 1;
+        pPuerto->buquesEnEspera--;
+        printf("%s sale de la cola y atraca en M%d\n", pPuerto->muelles[i].buque.id, pPuerto->muelles[i].id);
+
+        i = buscar_muelle_libre(pPuerto);
+    }
+}
+
+/* Devuelve la posicion del primer muelle libre, o -1 si estan todos ocupados */
+int buscar_muelle_libre(const tPuerto* pPuerto) {
+
+    int i;
+
+    for(i = 0; i < pPuerto->cantMuelles; i++) {
+        if(pPuerto->muelles[i].ocupado == 0) {
+            return i;
+        }
+    }
+
+    return -1;
+}
+
+int hay_buque_atracado(const tPuerto* pPuerto) {
+
+    int i;
+
+    for(i = 0; i < pPuerto->cantMuelles; i++) {
+        if(pPuerto->muelles[i].ocupado == 1) {
+            return 1;
+        }
+    }
+
+    return 0;
+}
+
+/* Imprime "| texto |" con el texto completado con espacios hasta el ancho del recuadro */
+void linea_recuadro(const char* texto) {
+
+    printf("| %-*s |\n", ANCHO_RECUADRO, texto);
+}
+
+/* "#=====...=====#" o "|-----...-----|" del mismo ancho que linea_recuadro */
+void separador_recuadro(char extremo, char relleno) {
+
+    int i;
+
+    printf("%c", extremo);
+    for(i = 0; i < ANCHO_RECUADRO + 2; i++) {
+        printf("%c", relleno);
+    }
+    printf("%c\n", extremo);
+}
+
+/* Ayuda de operaciones: se muestra siempre antes de pedir una orden */
+void mostrar_ayuda(const tConfiguracion* pConfiguracion) {
+
+    char texto[MAX_BUFFER];
+
+    printf("\n");
+    separador_recuadro('#', '=');
+    linea_recuadro("                   OPERACIONES DEL OPERADOR DEL PUERTO");
+    separador_recuadro('#', '=');
+
+    sprintf(texto, "%-58sCosto: %3d min", "DES Mx Zy  Descargar", pConfiguracion->tiempoDescargaContenedor);
+    linea_recuadro(texto);
+    linea_recuadro("           Toma el proximo contenedor del buque atracado en el muelle Mx");
+    linea_recuadro("           y lo apila en la zona Zy. Ej: DES M1 Z2");
+    separador_recuadro('|', '-');
+
+    sprintf(texto, "%-58sCosto: %3d min", "REU Zx Zy  Reubicar", pConfiguracion->tiempoReubicacionContenedor);
+    linea_recuadro(texto);
+    linea_recuadro("           Mueve el contenedor del tope de la zona Zx al tope de la");
+    linea_recuadro("           zona Zy. Las zonas deben ser distintas. Ej: REU Z1 Z3");
+    separador_recuadro('|', '-');
+
+    sprintf(texto, "%-58sCosto: %3d min", "ENT        Entregar", pConfiguracion->tiempoCargaCamion);
+    linea_recuadro(texto);
+    linea_recuadro("           Entrega al camion del frente de la cola su contenedor. Solo");
+    linea_recuadro("           se puede si ese contenedor esta en el tope de alguna zona.");
+    separador_recuadro('|', '-');
+
+    sprintf(texto, "%-58sCosto: %3d min", "ESP        Esperar", 1);
+    linea_recuadro(texto);
+    linea_recuadro("           Avanza el reloj un minuto sin hacer otra operacion.");
+    separador_recuadro('|', '-');
+
+    sprintf(texto, "%-58sCosto: %3d min", "VER        Ver estado", 0);
+    linea_recuadro(texto);
+    linea_recuadro("           Muestra muelles, zonas, camiones y puntuacion.");
+    separador_recuadro('#', '=');
+
+    sprintf(texto, "Muelles: M1 a M%d   Zonas: Z1 a Z%d   Capacidad por zona: %d   Fin: T=%d",
+            pConfiguracion->cantidadMuelles, pConfiguracion->cantidadZonasAlmacenamiento,
+            pConfiguracion->capacidadPila, pConfiguracion->duracionJornadaMinutos);
+    linea_recuadro(texto);
+    separador_recuadro('#', '=');
+}
+
+/* VER. Devuelve 0 solo si falla la memoria al volver a poner un contenedor o un camion */
+int mostrar_puerto(tJornada* pJornada) {
+
+    int i;
+
+    printf("\n#========================= ESTADO DEL PUERTO =========================#\n");
+    printf("  Tiempo: T=%d de %d                     (quedan %d minutos)\n",
+           pJornada->tiempoActual, pJornada->cfg.duracionJornadaMinutos,
+           pJornada->cfg.duracionJornadaMinutos - pJornada->tiempoActual);
+    printf("#---------------------------------------------------------------------#\n");
+
+    printf("  MUELLES\n");
+    for(i = 0; i < pJornada->puerto.cantMuelles; i++) {
+        mostrar_muelle(&pJornada->puerto.muelles[i]);
+    }
+    printf("\n  Buques esperando: %d\n", pJornada->puerto.buquesEnEspera);
+    printf("#---------------------------------------------------------------------#\n");
+
+    printf("  ZONAS (capacidad %d)                       base ............ tope\n", pJornada->cfg.capacidadPila);
+    if(mostrar_zonas(&pJornada->puerto.zonas, pJornada->cfg.cantidadZonasAlmacenamiento, pJornada->cfg.capacidadPila) == 0) {
+        printf("Error al reservar memoria al mostrar las zonas\n");
+        return 0;
+    }
+    printf("#---------------------------------------------------------------------#\n");
+
+    printf("  CAMIONES (ventana de planificacion)\n");
+    if(mostrar_ventana_camiones(&pJornada->puerto.colaCamiones, pJornada->puerto.camionesEnEspera) == 0) {
+        printf("Error al reservar memoria al mostrar los camiones\n");
+        return 0;
+    }
+    printf("#---------------------------------------------------------------------#\n");
+
+    printf("  Entregados: %d   Buques descargados: %d   Camiones en cola: %d\n",
+           pJornada->resumen.contenedoresEntregados, pJornada->resumen.buquesDescargados,
+           pJornada->puerto.camionesEnEspera);
+    printf("  Puntuacion provisoria: 10x%d + 5x%d - 2x%d = %d\n",
+           pJornada->resumen.contenedoresEntregados, pJornada->resumen.buquesDescargados,
+           pJornada->puerto.camionesEnEspera, calcular_puntuacion(pJornada));
+    printf("#=====================================================================#\n");
+
+    return 1;
+}
+
+/* "M1: B001   proximo -> [C102] C103 C104   (faltan 3 de 4)" */
+void mostrar_muelle(const tMuelle* pMuelle) {
+
+    int i;
+    int faltan;
+    const tBuque* pBuque = &pMuelle->buque;
+
+    if(pMuelle->ocupado == 0) {
+        printf("    M%d: libre\n", pMuelle->id);
+        return;
+    }
+
+    printf("    M%d: %-6s proximo -> [%s]", pMuelle->id, pBuque->id,
+           pBuque->manifiesto[pBuque->proximoADescargar].codigo);
+
+    for(i = pBuque->proximoADescargar + 1; i < pBuque->cantContenedores; i++) {
+        printf(" %s", pBuque->manifiesto[i].codigo);
+    }
+
+    faltan = pBuque->cantContenedores - pBuque->proximoADescargar;
+
+    if(faltan == 1) {
+        printf("   (falta 1 de %d)\n", pBuque->cantContenedores);
+    } else {
+        printf("   (faltan %d de %d)\n", faltan, pBuque->cantContenedores);
+    }
+}
+
+/* Accion que se le pasa a recorrer_lista: muestra una zona usando una pila auxiliar
+   local. La zona queda identica al terminar (doble inversion) */
+void accion_mostrar_zona(void* dato) {
+
+    tZona* pZona = (tZona*)dato;
+    tContenedor contenedor;
+    tPila aux;
+
+    crear_pila(&aux);
+
+    printf("    Z%d (%d/%d): ", pZona->id, pZona->cantidad, pZona->capacidad);
+
+    if(pila_vacia(&pZona->pila)) {
+        printf(" vacia\n");
+        vaciar_pila(&aux);
+        return;
+    }
+
+    /* Paso 1: desapilar zona -> apilar aux (invierte el orden) */
+    while(desapilar(&pZona->pila, &contenedor, sizeof(tContenedor)) == 1) {
+        apilar(&aux, &contenedor, sizeof(tContenedor));
+    }
+
+    /* Paso 2: desapilar aux -> mostrar -> apilar zona (invierte de nuevo: queda igual) */
+    while(desapilar(&aux, &contenedor, sizeof(tContenedor)) == 1) {
+        printf(" %s", contenedor.codigo);
+        apilar(&pZona->pila, &contenedor, sizeof(tContenedor));
+    }
+
+    printf("   <- tope");
+    if(pZona->cantidad == pZona->capacidad) {
+        printf("   LLENA");
+    }
+    printf("\n");
+
+    vaciar_pila(&aux);
+}
+
+/* Provisorio hasta tener recorrer_lista: se rota la lista (cada zona sale del
+   principio y vuelve al final), asi despues de cantZonas vueltas queda igual */
+int mostrar_zonas(tLista* pZonas, int cantZonas, int capacidad) {
+
+    recorrer_lista(pZonas, accion_mostrar_zona);
+    return 1;
+}
+
+/* Queda para compilacion: se usa en pruebas directas de una zona con pila externa */
+int mostrar_zona(tZona* pZona, int capacidad, tPila* pAux) {
+
+    tContenedor contenedor;
+
+    printf("    Z%d (%d/%d): ", pZona->id, pZona->cantidad, capacidad);
+
+    if(pila_vacia(&pZona->pila)) {
+        printf(" vacia\n");
+        return 1;
+    }
+
+    while(desapilar(&pZona->pila, &contenedor, sizeof(tContenedor)) == 1) {
+        if(apilar(pAux, &contenedor, sizeof(tContenedor)) == 0) {
+            return 0;
+        }
+    }
+
+    while(desapilar(pAux, &contenedor, sizeof(tContenedor)) == 1) {
+        printf(" %s", contenedor.codigo);
+        if(apilar(&pZona->pila, &contenedor, sizeof(tContenedor)) == 0) {
+            return 0;
+        }
+    }
+
+    printf("   <- tope");
+
+    if(pZona->cantidad == capacidad) {
+        printf("   LLENA");
+    }
+
+    printf("\n");
+
+    return 1;
+}
+
+/* Rota la cola completa (sale del frente y vuelve al final) mostrando los
+   primeros VENTANA_CAMIONES: despues de cantCamiones vueltas queda igual */
+int mostrar_ventana_camiones(tCola* pCola, int cantCamiones) {
+
+    int i;
+    tCamion camion;
+
+    if(cantCamiones == 0) {
+        printf("    (no hay camiones esperando)\n");
+        return 1;
+    }
+
+    for(i = 0; i < cantCamiones; i++) {
+
+        desencolar(pCola, &camion, sizeof(tCamion));
+
+        if(i < VENTANA_CAMIONES) {
+            printf("    %d) %s --> Solicita %s", i + 1, camion.id, camion.pedido.codigo);
+            if(i == 0) {
+                printf("   <-- Frente");
+            }
+            printf("\n");
+        }
+
+        if(encolar(pCola, &camion, sizeof(tCamion)) == 0) {
+            return 0;
+        }
+    }
+
+    if(cantCamiones > VENTANA_CAMIONES) {
+        printf("    (+%d camion(es) mas esperando)\n", cantCamiones - VENTANA_CAMIONES);
+    }
+
+    return 1;
+}
+
+/* --- Comparadores para buscar_en_lista con tZona --- */
+
+/* Compara una zona por su id. clave es un puntero a int */
+int comparar_zona_por_id(const void* dato, const void* clave) {
+    return ((const tZona*)dato)->id - *(const int*)clave;
+}
+
+/* Compara una zona por el codigo del contenedor en su tope.
+   clave es un puntero a char (el codigo a buscar).
+   Devuelve 0 si el tope coincide, distinto de 0 si no */
+int comparar_zona_por_tope(const void* dato, const void* clave) {
+
+    tZona* pZona = (tZona*)dato;
+    tContenedor tope;
+
+    if(pila_vacia(&pZona->pila)) {
+        return 1;
+    }
+    ver_tope(&pZona->pila, &tope, sizeof(tContenedor));
+    return strcmp(tope.codigo, (const char*)clave);
+}
+
+/* --- Helpers para operar sobre zonas (usan buscar_en_lista) --- */
+
+/* Desapila el contenedor del tope de la zona con ese id y lo copia en pContenedor.
+   No puede fallar: validar_orden ya verifico que la zona no esta vacia */
+void desapilar_de_zona(tLista* pZonas, int idZona, tContenedor* pContenedor) {
+
+    tZona* pZona = (tZona*)buscar_en_lista(pZonas, &idZona, comparar_zona_por_id);
+    desapilar(&pZona->pila, pContenedor, sizeof(tContenedor));
+    pZona->cantidad--;
+}
+
+/* Apila un contenedor en la zona con ese id y actualiza zona.cantidad.
+   Devuelve 0 si apilar falla (malloc): la zona queda sin cambios en ese caso */
+int apilar_en_zona(tLista* pZonas, int idZona, const tContenedor* pContenedor) {
+
+    tZona* pZona = (tZona*)buscar_en_lista(pZonas, &idZona, comparar_zona_por_id);
+    if(apilar(&pZona->pila, pContenedor, sizeof(tContenedor)) == 0) {
+        return 0;
+    }
+    pZona->cantidad++;
+    return 1;
+}
+
+/* Devuelve la cantidad de contenedores de la zona con ese id */
+int ver_cantidad_zona(tLista* pZonas, int idZona) {
+
+    tZona* pZona = (tZona*)buscar_en_lista(pZonas, &idZona, comparar_zona_por_id);
+    return pZona != NULL ? pZona->cantidad : 0;
+}
+
+/* Devuelve el id de la zona que tenga ese contenedor en su tope, o -1 si ninguna */
+int buscar_zona_con_tope(tLista* pZonas, const char* codigoCont) {
+
+    tZona* pZona = (tZona*)buscar_en_lista(pZonas, codigoCont, comparar_zona_por_tope);
+    return pZona != NULL ? pZona->id : -1;
+}
+
+/* Devuelve 1 si el contenedor con ese codigo esta en el tope de alguna zona */
+int contenedor_en_algun_tope(tLista* pZonas, const char* codigoCont) {
+
+    return buscar_en_lista(pZonas, codigoCont, comparar_zona_por_tope) != NULL;
+}
+
+/* --- Operaciones con orden temporal (ADR-10) ---
+   Cada funcion sigue los mismos 5 pasos:
+     1. Arribar entre T_inicio y T_fin (exclusivo): solo si el costo es > 1 minuto.
+     2. Aplicar las consecuencias en T_fin.
+     3. Arribar en exactamente T_fin.
+     4. Asignar buques en cola a muelles libres.
+     5. Avanzar el reloj, guardar en historial y evaluar estado.
+   El reloj (tiempoActual) se actualiza al final para que los prints de arribo
+   muestren los tiempos correctos. */
+
+/* DES Mx Zy: toma el proximo contenedor del buque atracado en el muelle Mx
+   y lo apila en la zona Zy. Si el buque termina de descargarse, libera el muelle */
+int ejecutar_des(tJornada* pJornada, const tOperacion* pOperacion) {
+
+    int T_inicio;
+    int T_fin;
+    int numMuelle;
+    int numZona;
+    tMuelle* pMuelle;
+    tContenedor contenedor;
+    tOperacion registro;
+    char idBuque[MAX_ID];
+
+    T_inicio  = pJornada->tiempoActual;
+    T_fin     = T_inicio + pJornada->cfg.tiempoDescargaContenedor;
+    numMuelle = parsear_id_muelle(pOperacion->origen);
+    numZona   = parsear_id_zona(pOperacion->destino);
+    pMuelle   = &pJornada->puerto.muelles[numMuelle - 1];
+
+    /* Paso 1: arribar durante la operacion (T_inicio < T < T_fin) */
+    if(T_fin - T_inicio > 1) {
+        if(procesar_arribos(pJornada, T_fin - 1) == 0) return 0;
+        asignar_muelles(&pJornada->puerto);
+    }
+
+    /* Paso 2: consecuencias en T_fin */
+    /* Tomar el proximo contenedor del manifiesto del buque */
+    contenedor = pMuelle->buque.manifiesto[pMuelle->buque.proximoADescargar];
+    pMuelle->buque.proximoADescargar++;
+
+    /* Apilarlo en la zona de destino */
+    if(apilar_en_zona(&pJornada->puerto.zonas, numZona, &contenedor) == 0) {
+        pMuelle->buque.proximoADescargar--;     /* revertir si falla el malloc */
+        return 0;
+    }
+
+    /* Si el buque termino de descargarse, liberar el muelle */
+    strcpy(idBuque, pMuelle->buque.id);         /* guardar id antes de limpiar */
+    if(pMuelle->buque.proximoADescargar >= pMuelle->buque.cantContenedores) {
+        free(pMuelle->buque.manifiesto);
+        pMuelle->buque.manifiesto = NULL;
+        pMuelle->ocupado = 0;
+        pJornada->resumen.buquesDescargados++;
+        printf("%s termino de descargarse: M%d queda libre\n", idBuque, numMuelle);
+    }
+
+    printf("DES: %s de %s (M%d) -> Z%d\n", contenedor.codigo, idBuque, numMuelle, numZona);
+
+    /* Pasos 3 y 4: arribar en T_fin y asignar muelles */
+    if(procesar_arribos(pJornada, T_fin) == 0) return 0;
+    asignar_muelles(&pJornada->puerto);
+
+    /* Paso 5: avanzar reloj, guardar en historial y evaluar */
+    registro.tiempoInicio = T_inicio;
+    registro.tiempoFin    = T_fin;
+    strcpy(registro.codigo, "DES");
+    registro.contenedor   = contenedor;
+    sprintf(registro.origen,  "M%d", numMuelle);
+    sprintf(registro.destino, "Z%d", numZona);
+
+    pJornada->tiempoActual = T_fin;
+
+    if(enlistar_final(&pJornada->historial, &registro, sizeof(tOperacion)) == 0) return 0;
+
+    evaluar_estado(pJornada);
+    return 1;
+}
+
+/* ENT: entrega al camion del frente de la cola el contenedor que pide,
+   sacandolo del tope de la zona donde este */
+int ejecutar_ent(tJornada* pJornada, const tOperacion* pOperacion) {
+
+    int T_inicio;
+    int T_fin;
+    int idZona;
+    tCamion camion;
+    tContenedor contenedor;
+    tOperacion registro;
+
+    T_inicio = pJornada->tiempoActual;
+    T_fin    = T_inicio + pJornada->cfg.tiempoCargaCamion;
+
+    /* Paso 1 */
+    if(T_fin - T_inicio > 1) {
+        if(procesar_arribos(pJornada, T_fin - 1) == 0) return 0;
+        asignar_muelles(&pJornada->puerto);
+    }
+
+    /* Paso 2: buscar la zona con el contenedor pedido, desapilarlo y despachar el camion */
+    ver_primero_cola(&pJornada->puerto.colaCamiones, &camion, sizeof(tCamion));
+    idZona = buscar_zona_con_tope(&pJornada->puerto.zonas, camion.pedido.codigo);
+
+    desapilar_de_zona(&pJornada->puerto.zonas, idZona, &contenedor);
+    desencolar(&pJornada->puerto.colaCamiones, &camion, sizeof(tCamion));
+    pJornada->puerto.camionesEnEspera--;
+    pJornada->resumen.contenedoresEntregados++;
+
+    printf("ENT: %s entregado a %s desde Z%d\n", contenedor.codigo, camion.id, idZona);
+
+    /* Pasos 3 y 4 */
+    if(procesar_arribos(pJornada, T_fin) == 0) return 0;
+    asignar_muelles(&pJornada->puerto);
+
+    /* Paso 5 */
+    registro.tiempoInicio = T_inicio;
+    registro.tiempoFin    = T_fin;
+    strcpy(registro.codigo, "ENT");
+    registro.contenedor   = contenedor;
+    sprintf(registro.origen,  "Z%d", idZona);
+    strcpy(registro.destino, camion.id);
+
+    pJornada->tiempoActual = T_fin;
+
+    if(enlistar_final(&pJornada->historial, &registro, sizeof(tOperacion)) == 0) return 0;
+
+    evaluar_estado(pJornada);
+    return 1;
+}
+
+/* 10 por contenedor entregado + 5 por buque descargado - 2 por camion en cola */
+int calcular_puntuacion(const tJornada* pJornada) {
+
+    return 10 * pJornada->resumen.contenedoresEntregados +
+            5 * pJornada->resumen.buquesDescargados -
+            2 * pJornada->puerto.camionesEnEspera;
+}
+
+/* --- Paso 10: Cierre de jornada --- */
+
+/* Accion que se le pasa a recorrer_lista para imprimir una fila del historial.
+   dato apunta al info del nodo (tOperacion). Se muestra cada operacion con
+   su intervalo de tiempo, codigo, contenedor involucrado, origen y destino.
+   ESP no tiene contenedor real: se muestra "-" en esos campos */
+void accion_mostrar_operacion(void* dato) {
+
+    tOperacion* pOp = (tOperacion*)dato;
+
+    if(strcmp(pOp->codigo, "ESP") == 0) {
+        /* ESP: no hay contenedor ni origen/destino con sentido */
+        printf("  T=%3d->T=%3d | %-3s | %-10s | %-6s -> %s\n",
+               pOp->tiempoInicio, pOp->tiempoFin,
+               pOp->codigo,
+               "-",
+               "-", "-");
+    } else {
+        /* DES: origen=Mx, destino=Zy
+           REU: origen=Zx, destino=Zy
+           ENT: origen=Zy, destino=Kxxx (id del camion) */
+        printf("  T=%3d->T=%3d | %-3s | %-10s | %-6s -> %s\n",
+               pOp->tiempoInicio, pOp->tiempoFin,
+               pOp->codigo,
+               pOp->contenedor.codigo,
+               pOp->origen,
+               pOp->destino);
+    }
+}
+
+/* Imprime el historial completo de operaciones usando recorrer_lista.
+   Se llama al cerrar la jornada, antes de mostrar_resumen */
+void mostrar_historial(tHistorial* pHistorial) {
+
+    printf("\n");
+    separador_recuadro('#', '=');
+    linea_recuadro("  HISTORIAL DE OPERACIONES");
+    separador_recuadro('#', '=');
+    printf("  %-14s | %-3s | %-10s | %s\n", "Intervalo", "Op", "Contenedor", "Origen -> Destino");
+    separador_recuadro('|', '-');
+
+    if(lista_vacia(pHistorial)) {
+        /* No se ejecuto ninguna operacion en toda la jornada */
+        linea_recuadro("  (ninguna operacion ejecutada)");
+    } else {
+        /* Cada nodo de la lista es un tOperacion; accion_mostrar_operacion
+           imprime una fila por operacion en el orden cronologico en que
+           se realizaron (enlistar_final mantiene ese orden) */
+        recorrer_lista(pHistorial, accion_mostrar_operacion);
+    }
+
+    separador_recuadro('#', '=');
+}
+
+/* Imprime el resumen final de la jornada: motivo de cierre, tiempo, estadisticas
+   y puntuacion definitiva. Se llama despues de mostrar_historial */
+void mostrar_resumen(const tJornada* pJornada) {
+
+    const tResumen* r = &pJornada->resumen;
+    const char* motivo;
+    char texto[MAX_BUFFER];
+
+    /* Convertir el enum motivoFin a un texto legible */
+    switch(r->motivoFin) {
+        case FIN_NORMAL:
+            motivo = "Jornada completada sin pendientes";
+            break;
+        case FIN_TIEMPO:
+            motivo = "Se agoto el tiempo disponible";
+            break;
+        case FIN_BLOQUEO:
+            motivo = "Bloqueo: no habia operaciones posibles";
+            break;
+        default:
+            motivo = "(motivo desconocido)";
+            break;
+    }
+
+    printf("\n");
+    separador_recuadro('#', '=');
+    linea_recuadro("  RESUMEN FINAL");
+    separador_recuadro('#', '=');
+
+    sprintf(texto, "Motivo de fin    : %s", motivo);
+    linea_recuadro(texto);
+
+    sprintf(texto, "Tiempo utilizado : T=%d de %d minutos",
+            r->tiempoUtilizado, pJornada->cfg.duracionJornadaMinutos);
+    linea_recuadro(texto);
+
+    separador_recuadro('|', '-');
+
+    sprintf(texto, "Contenedores entregados  : %d", r->contenedoresEntregados);
+    linea_recuadro(texto);
+
+    sprintf(texto, "Buques descargados       : %d", r->buquesDescargados);
+    linea_recuadro(texto);
+
+    sprintf(texto, "Camiones pendientes      : %d", r->camionesPendientes);
+    linea_recuadro(texto);
+
+    sprintf(texto, "Reubicaciones realizadas : %d", r->reubicaciones);
+    linea_recuadro(texto);
+
+    separador_recuadro('|', '-');
+
+    /* Mostrar la formula para que quede claro como se calculo la puntuacion */
+    sprintf(texto, "Puntuacion: 10x%d + 5x%d - 2x%d = %d",
+            r->contenedoresEntregados,
+            r->buquesDescargados,
+            r->camionesPendientes,
+            r->puntuacion);
+    linea_recuadro(texto);
+
+    separador_recuadro('#', '=');
+    printf("\n");
 }

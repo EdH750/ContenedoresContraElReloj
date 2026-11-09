@@ -3,9 +3,9 @@
 
 #include "ContenedoresContraReloj.h"
 #include "escenario.h"
-#include "pila.h"
-#include "cola.h"
-#include "lista.h"
+#include "TDA/pila.h"
+#include "TDA/cola.h"
+#include "TDA/lista.h"
 
 #define LARGO_CODIGO      3
 #define MAX_COD_OPERACION (LARGO_CODIGO + 1)
@@ -21,7 +21,8 @@ typedef struct {
 
 typedef struct {
     int   id;                            /* 1 = Z1 */
-    int   cantidad;                      /* se compara con cfg.capacidadPila */
+    int   cantidad;                      /* contenedores actuales */
+    int   capacidad;                     /* maximo: copia de cfg.capacidadPila */
     tPila pila;                          /* elementos: tContenedor */
 } tZona;
 
@@ -101,7 +102,7 @@ int ejecutar_ent(tJornada* pJornada, const tOperacion* pOperacion);
 
 /* Reloj y eventos */
 int avanzar_reloj(tJornada* pJornada, int tiempoNuevo);
-void evaluar_estado(tJornada* pJornada); //
+void evaluar_estado(tJornada* pJornada);
 int procesar_arribos(tJornada* pJornada, int tiempoLimite);
 int arribo_buque(tPuerto* pPuerto, const tBuque* pBuque);
 void asignar_muelles(tPuerto* pPuerto);
@@ -135,6 +136,5 @@ void mostrar_resumen(const tJornada* pJornada);
 /* Puerto */
 int crear_puerto(tPuerto* pPuerto, const tConfiguracion* pConfiguracion);
 void liberar_puerto(tPuerto* pPuerto);
-
 
 #endif /* JORNADA_H_INCLUDED */

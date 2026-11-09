@@ -93,3 +93,27 @@ int lista_vacia(const tLista* pl) {
 
 }
 
+void recorrer_lista(tLista* pl, void (*accion)(void*)) {
+
+    while(*pl) {
+        accion((*pl)->info);
+        pl = &(*pl)->sig;
+    }
+}
+
+void* buscar_en_lista(tLista* pl, const void* clave, int (*cmp)(const void*, const void*)) {
+
+    tNodo* aux;
+
+    aux = *pl;
+
+    while(aux) {
+        if(cmp(aux->info, clave) == 0) {
+            return aux->info;
+        }
+        aux = aux->sig;
+    }
+
+    return NULL;
+}
+
