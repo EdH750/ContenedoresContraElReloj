@@ -1,208 +1,197 @@
 # depslib dependency file v1.0
-1791656290 source:c:\users\martin\desktop\contenedores\contenedorescontraelreloj\contenedorescontrareloj\contenedorescontrareloj.c
+1789778366 source:c:\users\martin\desktop\contenedores\contenedorescontraelreloj\contenedorescontrareloj\contenedorescontrareloj.c
 	"ContenedoresContraReloj.h"
 
-1791656292 c:\users\martin\desktop\contenedores\contenedorescontraelreloj\contenedorescontrareloj\contenedorescontrareloj.h
+1789781103 c:\users\martin\desktop\contenedores\contenedorescontraelreloj\contenedorescontrareloj\contenedorescontrareloj.h
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
-	<time.h>
-	<ctype.h>
-	<errno.h>
-	<limits.h>
 
 1789781103 source:c:\users\martin\desktop\contenedores\contenedorescontraelreloj\contenedorescontrareloj\main.c
 	"ContenedoresContraReloj.h"
 
-1791066455 source:c:\users\martin palacios\desktop\contenedorescontrareloj\contenedorescontrareloj\main.c
-	"escenario.h"
-
-1791068596 source:c:\users\martin palacios\desktop\contenedorescontrareloj\contenedorescontrareloj\contenedorescontrareloj.c
-
-1791059880 source:c:\users\martin palacios\desktop\contenedorescontrareloj\contenedorescontrareloj\cola.c
-	"cola.h"
-
-1791148592 c:\users\martin palacios\desktop\contenedorescontrareloj\contenedorescontrareloj\cola.h
-	"nodo.h"
-
-1791068866 c:\users\martin palacios\desktop\contenedorescontrareloj\contenedorescontrareloj\nodo.h
-
-1791059882 source:c:\users\martin palacios\desktop\contenedorescontrareloj\contenedorescontrareloj\lista.c
-	"lista.h"
-
-1791148592 c:\users\martin palacios\desktop\contenedorescontrareloj\contenedorescontrareloj\lista.h
-	"nodo.h"
-
-1791074958 c:\users\martin palacios\desktop\contenedorescontrareloj\contenedorescontrareloj\escenario.h
-	"ContenedoresContraReloj.h"
-
-1791068593 c:\users\martin palacios\desktop\contenedorescontrareloj\contenedorescontrareloj\contenedorescontrareloj.h
-	<stdio.h>
-	<stdlib.h>
-	<string.h>
-	<time.h>
-	<ctype.h>
-	<errno.h>
-	<limits.h>
-
-1791074960 source:c:\users\martin palacios\desktop\contenedorescontrareloj\contenedorescontrareloj\escenario.c
-	"escenario.h"
-
-1791601687 source:c:\users\martin\desktop\contenedores\contenedorescontraelreloj\contenedorescontrareloj\cola.c
-	"cola.h"
-
-1791601687 c:\users\martin\desktop\contenedores\contenedorescontraelreloj\contenedorescontrareloj\cola.h
-	"nodo.h"
-
-1791601687 c:\users\martin\desktop\contenedores\contenedorescontraelreloj\contenedorescontrareloj\nodo.h
-	<stdlib.h>
-	<string.h>
-
-1791601687 source:c:\users\martin\desktop\contenedores\contenedorescontraelreloj\contenedorescontrareloj\escenario.c
-	"escenario.h"
-
-1791601687 c:\users\martin\desktop\contenedores\contenedorescontraelreloj\contenedorescontrareloj\escenario.h
-	"ContenedoresContraReloj.h"
-	"lista.h"
-
-1791601687 c:\users\martin\desktop\contenedores\contenedorescontraelreloj\contenedorescontrareloj\lista.h
-	"nodo.h"
-
-1791656307 source:c:\users\martin\desktop\contenedores\contenedorescontraelreloj\contenedorescontrareloj\jornada.c
+1794325691 source:c:\users\martin palacios\desktop\contenedorescontrareloj\contenedorescontrareloj\main.c
+	"menu.h"
+	"aplicacion.h"
 	"jornada.h"
-
-1791656308 c:\users\martin\desktop\contenedores\contenedorescontraelreloj\contenedorescontrareloj\jornada.h
-	"ContenedoresContraReloj.h"
-	"escenario.h"
-	"pila.h"
-	"cola.h"
-	"lista.h"
-
-1791601687 c:\users\martin\desktop\contenedores\contenedorescontraelreloj\contenedorescontrareloj\pila.h
-	"nodo.h"
-
-1791601687 source:c:\users\martin\desktop\contenedores\contenedorescontraelreloj\contenedorescontrareloj\lista.c
-	"lista.h"
-
-1791601687 source:c:\users\martin\desktop\contenedores\contenedorescontraelreloj\contenedorescontrareloj\pila.c
-	"pila.h"
-
-1794168440 source:c:\users\estudiante\desktop\tp algoritmos\contenedorescontraelreloj\contenedorescontrareloj\cola.c
-	"cola.h"
-
-1794168440 c:\users\estudiante\desktop\tp algoritmos\contenedorescontraelreloj\contenedorescontrareloj\cola.h
-	"nodo.h"
-
-1794168440 c:\users\estudiante\desktop\tp algoritmos\contenedorescontraelreloj\contenedorescontrareloj\nodo.h
-	<stdlib.h>
-	<string.h>
-
-1794168440 source:c:\users\estudiante\desktop\tp algoritmos\contenedorescontraelreloj\contenedorescontrareloj\contenedorescontrareloj.c
-	"ContenedoresContraReloj.h"
-
-1794168440 c:\users\estudiante\desktop\tp algoritmos\contenedorescontraelreloj\contenedorescontrareloj\contenedorescontrareloj.h
-	<stdio.h>
-	<stdlib.h>
-	<string.h>
-	<time.h>
-	<ctype.h>
-	<errno.h>
-	<limits.h>
-
-1794168440 source:c:\users\estudiante\desktop\tp algoritmos\contenedorescontraelreloj\contenedorescontrareloj\escenario.c
-	"escenario.h"
-
-1794168440 c:\users\estudiante\desktop\tp algoritmos\contenedorescontraelreloj\contenedorescontrareloj\escenario.h
-	"ContenedoresContraReloj.h"
-	"lista.h"
-
-1794168440 c:\users\estudiante\desktop\tp algoritmos\contenedorescontraelreloj\contenedorescontrareloj\lista.h
-	"nodo.h"
-
-1794168440 source:c:\users\estudiante\desktop\tp algoritmos\contenedorescontraelreloj\contenedorescontrareloj\lista.c
-	"lista.h"
-
-1794168440 source:c:\users\estudiante\desktop\tp algoritmos\contenedorescontraelreloj\contenedorescontrareloj\main.c
-	"ContenedoresContraReloj.h"
-	"jornada.h"
-
-1794182729 c:\users\estudiante\desktop\tp algoritmos\contenedorescontraelreloj\contenedorescontrareloj\jornada.h
-	"ContenedoresContraReloj.h"
-	"escenario.h"
-	"pila.h"
-	"cola.h"
-	"lista.h"
-
-1794168440 c:\users\estudiante\desktop\tp algoritmos\contenedorescontraelreloj\contenedorescontrareloj\pila.h
-	"nodo.h"
-
-1794168440 source:c:\users\estudiante\desktop\tp algoritmos\contenedorescontraelreloj\contenedorescontrareloj\pila.c
-	"pila.h"
-
-1794187228 source:d:\edu\uni\algoritmos\tp\contenedorescontraelreloj\contenedorescontrareloj\contenedorescontrareloj.c
-	"ContenedoresContraReloj.h"
-
-1794187228 d:\edu\uni\algoritmos\tp\contenedorescontraelreloj\contenedorescontrareloj\contenedorescontrareloj.h
-	<stdio.h>
-	<stdlib.h>
-	<string.h>
-	<time.h>
-	<ctype.h>
-	<errno.h>
-	<limits.h>
-
-1794187228 source:d:\edu\uni\algoritmos\tp\contenedorescontraelreloj\contenedorescontrareloj\tda\cola.c
-	"cola.h"
-
-1794187228 d:\edu\uni\algoritmos\tp\contenedorescontraelreloj\contenedorescontrareloj\tda\cola.h
-	"nodo.h"
-
-1794187228 d:\edu\uni\algoritmos\tp\contenedorescontraelreloj\contenedorescontrareloj\tda\nodo.h
-	<stdlib.h>
-	<string.h>
-
-1794190423 source:d:\edu\uni\algoritmos\tp\contenedorescontraelreloj\contenedorescontrareloj\tda\lista.c
-	"lista.h"
-
-1794188489 d:\edu\uni\algoritmos\tp\contenedorescontraelreloj\contenedorescontrareloj\tda\lista.h
-	"nodo.h"
-
-1794187228 source:d:\edu\uni\algoritmos\tp\contenedorescontraelreloj\contenedorescontrareloj\tda\pila.c
-	"pila.h"
-
-1794187228 d:\edu\uni\algoritmos\tp\contenedorescontraelreloj\contenedorescontrareloj\tda\pila.h
-	"nodo.h"
-
-1794187228 source:d:\edu\uni\algoritmos\tp\contenedorescontraelreloj\contenedorescontrareloj\escenario.c
-	"escenario.h"
-
-1794190380 d:\edu\uni\algoritmos\tp\contenedorescontraelreloj\contenedorescontrareloj\escenario.h
-	"ContenedoresContraReloj.h"
-	"TDA/lista.h"
-
-1794190330 source:d:\edu\uni\algoritmos\tp\contenedorescontraelreloj\contenedorescontrareloj\jornada.c
-	"jornada.h"
-
-1794189360 d:\edu\uni\algoritmos\tp\contenedorescontraelreloj\contenedorescontrareloj\jornada.h
-	"ContenedoresContraReloj.h"
-	"escenario.h"
-	"TDA/pila.h"
-	"TDA/cola.h"
-	"TDA/lista.h"
-
-1794187439 source:d:\edu\uni\algoritmos\tp\contenedorescontraelreloj\contenedorescontrareloj\main.c
-	"ContenedoresContraReloj.h"
-	"jornada.h"
-
-1794240346 source:d:\edu\uni\algoritmos\tp\contenedorescontraelreloj\contenedorescontrareloj\operador.c
 	"operador.h"
-	"TDA/abb.h"
 
-1794190115 d:\edu\uni\algoritmos\tp\contenedorescontraelreloj\contenedorescontrareloj\operador.h
+1794074933 source:c:\users\martin palacios\desktop\contenedorescontrareloj\contenedorescontrareloj\contenedorescontrareloj.c
+	"ContenedoresContraReloj.h"
+
+1794144155 source:c:\users\martin palacios\desktop\contenedorescontrareloj\contenedorescontrareloj\cola.c
+	"cola.h"
+
+1794074933 c:\users\martin palacios\desktop\contenedorescontrareloj\contenedorescontrareloj\cola.h
+	"nodo.h"
+
+1794144126 c:\users\martin palacios\desktop\contenedorescontrareloj\contenedorescontrareloj\nodo.h
+	<stdlib.h>
+	<string.h>
+
+1794144167 source:c:\users\martin palacios\desktop\contenedorescontrareloj\contenedorescontrareloj\lista.c
+	"lista.h"
+
+1794102931 c:\users\martin palacios\desktop\contenedorescontrareloj\contenedorescontrareloj\lista.h
+	"nodo.h"
+
+1794149608 c:\users\martin palacios\desktop\contenedorescontrareloj\contenedorescontrareloj\escenario.h
+	"aplicacion.h"
+	"lista.h"
+
+1792958373 c:\users\martin palacios\desktop\contenedorescontrareloj\contenedorescontrareloj\contenedorescontrareloj.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<time.h>
+	<ctype.h>
+	<errno.h>
+	<limits.h>
+
+1794146585 source:c:\users\martin palacios\desktop\contenedorescontrareloj\contenedorescontrareloj\escenario.c
+	"escenario.h"
+
+1794104703 source:c:\users\martin palacios\desktop\contenedorescontrareloj\contenedorescontrareloj\jornada.c
 	"jornada.h"
 
-1794190114 d:\edu\uni\algoritmos\tp\contenedorescontraelreloj\contenedorescontrareloj\tda\abb.h
+1794149606 c:\users\martin palacios\desktop\contenedorescontrareloj\contenedorescontrareloj\jornada.h
+	"aplicacion.h"
+	"escenario.h"
+	"pila.h"
+	"cola.h"
+	"lista.h"
+
+1794074933 c:\users\martin palacios\desktop\contenedorescontrareloj\contenedorescontrareloj\pila.h
+	"nodo.h"
+
+1794144147 source:c:\users\martin palacios\desktop\contenedorescontrareloj\contenedorescontrareloj\pila.c
+	"pila.h"
+
+1794148402 c:\users\martin palacios\desktop\contenedorescontrareloj\contenedorescontrareloj\operador.h
+	"jornada.h"
+
+1792958316 source:c:\users\martin palacios\desktop\contenedorescontrareloj\contenedorescontrareloj\abb.c
+	"abb.h"
+
+1792958307 c:\users\martin palacios\desktop\contenedorescontrareloj\contenedorescontrareloj\abb.h
 	<stdio.h>
 	<string.h>
 	<stdlib.h>
+
+1794148395 source:c:\users\martin palacios\desktop\contenedorescontrareloj\contenedorescontrareloj\operador.c
+	"operador.h"
+	"abb.h"
+
+1794149602 source:c:\users\martin palacios\desktop\contenedorescontrareloj\contenedorescontrareloj\aplicacion.c
+	"aplicacion.h"
+
+1794149532 c:\users\martin palacios\desktop\contenedorescontrareloj\contenedorescontrareloj\aplicacion.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<time.h>
+	<ctype.h>
+	<limits.h>
+	"util.h"
+
+1794150024 c:\users\martin palacios\desktop\contenedorescontrareloj\contenedorescontrareloj\util.h
+	<stdlib.h>
+	<ctype.h>
+	<errno.h>
+	<limits.h>
+
+1794149513 source:c:\users\martin palacios\desktop\contenedorescontrareloj\contenedorescontrareloj\menu.c
+	"menu.h"
+
+1794150028 c:\users\martin palacios\desktop\contenedorescontrareloj\contenedorescontrareloj\menu.h
+	<stdio.h>
+	<string.h>
+	"util.h"
+
+1794149490 source:c:\users\martin palacios\desktop\contenedorescontrareloj\contenedorescontrareloj\util.c
+	"util.h"
+
+1794325691 c:\users\martin palacios\desktop\contenedorescontrareloj\contenedorescontrareloj\include\aplicacion.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<time.h>
+	<ctype.h>
+	<limits.h>
+	"util.h"
+
+1794150024 c:\users\martin palacios\desktop\contenedorescontrareloj\contenedorescontrareloj\include\util.h
+	<stdlib.h>
+	<ctype.h>
+	<errno.h>
+	<limits.h>
+
+1794328149 c:\users\martin palacios\desktop\contenedorescontrareloj\contenedorescontrareloj\include\dominio\jornada.h
+	"aplicacion.h"
+	"escenario.h"
+	"pila.h"
+	"cola.h"
+	"lista.h"
+
+1794149608 c:\users\martin palacios\desktop\contenedorescontrareloj\contenedorescontrareloj\include\dominio\escenario.h
+	"aplicacion.h"
+	"lista.h"
+
+1794102931 c:\users\martin palacios\desktop\contenedorescontrareloj\contenedorescontrareloj\include\tda\lista.h
+	"nodo.h"
+
+1794144126 c:\users\martin palacios\desktop\contenedorescontrareloj\contenedorescontrareloj\include\tda\nodo.h
+	<stdlib.h>
+	<string.h>
+
+1794074933 c:\users\martin palacios\desktop\contenedorescontrareloj\contenedorescontrareloj\include\tda\pila.h
+	"nodo.h"
+
+1794074933 c:\users\martin palacios\desktop\contenedorescontrareloj\contenedorescontrareloj\include\tda\cola.h
+	"nodo.h"
+
+1794325692 c:\users\martin palacios\desktop\contenedorescontrareloj\contenedorescontrareloj\include\sesion\operador.h
+	"jornada.h"
+
+1794325692 source:c:\users\martin palacios\desktop\contenedorescontrareloj\contenedorescontrareloj\src\dominio\escenario.c
+	"escenario.h"
+
+1794328093 source:c:\users\martin palacios\desktop\contenedorescontrareloj\contenedorescontrareloj\src\dominio\jornada.c
+	"jornada.h"
+
+1794325692 source:c:\users\martin palacios\desktop\contenedorescontrareloj\contenedorescontrareloj\src\menu.c
+	"menu.h"
+
+1794150028 c:\users\martin palacios\desktop\contenedorescontrareloj\contenedorescontrareloj\include\menu.h
+	<stdio.h>
+	<string.h>
+	"util.h"
+
+1794325691 source:c:\users\martin palacios\desktop\contenedorescontrareloj\contenedorescontrareloj\src\sesion\operador.c
+	"operador.h"
+	"abb.h"
+
+1794325691 c:\users\martin palacios\desktop\contenedorescontrareloj\contenedorescontrareloj\include\tda\abb.h
+	<stdio.h>
+	<string.h>
+	<stdlib.h>
+	"nodo.h"
+
+1794325691 source:c:\users\martin palacios\desktop\contenedorescontrareloj\contenedorescontrareloj\src\tda\abb.c
+	"abb.h"
+
+1794325692 source:c:\users\martin palacios\desktop\contenedorescontrareloj\contenedorescontrareloj\src\tda\cola.c
+	"cola.h"
+
+1794325692 source:c:\users\martin palacios\desktop\contenedorescontrareloj\contenedorescontrareloj\src\tda\lista.c
+	"lista.h"
+
+1794325692 source:c:\users\martin palacios\desktop\contenedorescontrareloj\contenedorescontrareloj\src\tda\pila.c
+	"pila.h"
+
+1794325691 source:c:\users\martin palacios\desktop\contenedorescontrareloj\contenedorescontrareloj\src\util.c
+	"util.h"
+
+1794325691 source:c:\users\martin palacios\desktop\contenedorescontrareloj\contenedorescontrareloj\src\aplicacion.c
+	"aplicacion.h"
 

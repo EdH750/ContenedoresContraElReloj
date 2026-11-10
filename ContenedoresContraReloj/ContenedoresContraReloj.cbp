@@ -30,32 +30,57 @@
 		</Build>
 		<Compiler>
 			<Add option="-Wall" />
+			<Add directory="include" />
+			<Add directory="include/tda" />
+			<Add directory="include/dominio" />
+			<Add directory="include/sesion" />
 		</Compiler>
-		<Unit filename="ContenedoresContraReloj.c">
+		<!-- TDA -->
+		<Unit filename="src/tda/abb.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="ContenedoresContraReloj.h" />
-		<Unit filename="TDA/cola.c">
+		<Unit filename="include/tda/abb.h" />
+		<Unit filename="src/tda/pila.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="TDA/cola.h" />
-		<Unit filename="TDA/lista.c">
+		<Unit filename="include/tda/pila.h" />
+		<Unit filename="src/tda/cola.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="TDA/lista.h" />
-		<Unit filename="TDA/nodo.h" />
-		<Unit filename="TDA/pila.c">
+		<Unit filename="include/tda/cola.h" />
+		<Unit filename="src/tda/lista.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="TDA/pila.h" />
-		<Unit filename="escenario.c">
+		<Unit filename="include/tda/lista.h" />
+		<Unit filename="include/tda/nodo.h" />
+		<!-- Dominio -->
+		<Unit filename="src/dominio/jornada.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="escenario.h" />
-		<Unit filename="jornada.c">
+		<Unit filename="include/dominio/jornada.h" />
+		<Unit filename="src/dominio/escenario.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="jornada.h" />
+		<Unit filename="include/dominio/escenario.h" />
+		<!-- Sesion -->
+		<Unit filename="src/sesion/operador.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="include/sesion/operador.h" />
+		<!-- App -->
+		<Unit filename="src/util.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="include/util.h" />
+		<Unit filename="src/menu.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="include/menu.h" />
+		<Unit filename="src/aplicacion.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="include/aplicacion.h" />
+		<!-- Punto de entrada -->
 		<Unit filename="main.c">
 			<Option compilerVar="CC" />
 		</Unit>

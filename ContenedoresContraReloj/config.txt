@@ -1,7 +1,7 @@
 duracion_jornada_minutos:50
-cantidad_muelles:1
-cantidad_zonas_almacenamiento:1
-capacidad_pila:1
+cantidad_muelles:2
+cantidad_zonas_almacenamiento:3
+capacidad_pila:5
 maximo_buques:5
 maximo_contenedores_por_buque:5
 maximo_camiones:4

@@ -4,11 +4,12 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include "nodo.h"
 
-/* Codigos de retorno de insertar_abb */
-#define ABB_OK        1   /* insercion exitosa */
-#define ABB_CLAVE_DUP 0   /* clave ya existia: no se inserta */
-#define ABB_SIN_MEM  -1   /* malloc fallo */
+/* Codigos de retorno de insertar_abb.
+   EXITO (1) e ERROR (0) vienen de nodo.h.
+   ABB_CLAVE_DUP es un tercer estado: la clave ya existia, no es un error */
+#define ABB_CLAVE_DUP 2   /* clave duplicada: no se inserta, pero no es un fallo */
 
 /* Nodo interno del arbol.
    info apunta a una copia del dato (tamInfo bytes) hecha con malloc.
@@ -31,7 +32,7 @@ void crear_abb(tABB* pa);
 void vaciar_abb(tABB* pa);
 
 /* Inserta una copia de pd (tam bytes) usando cmp para ubicarla.
-   Devuelve ABB_OK, ABB_CLAVE_DUP o ABB_SIN_MEM */
+   Devuelve EXITO si se inserto, ABB_CLAVE_DUP si ya existia, ERROR si fallo malloc */
 int insertar_abb(tABB* pa, const void* pd, size_t tam,
                  int (*cmp)(const void*, const void*));
 

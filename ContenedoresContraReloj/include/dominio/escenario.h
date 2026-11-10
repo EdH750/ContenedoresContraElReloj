@@ -1,13 +1,14 @@
 #ifndef ESCENARIO_H_INCLUDED
 #define ESCENARIO_H_INCLUDED
 
-#include "ContenedoresContraReloj.h"
-#include "TDA/lista.h"
+#include "aplicacion.h"
+#include "lista.h"
 
 #define MAX_ID 8
 
 /* Lo que no depende del manifiesto en una linea de buque: id, ";T=", minuto, ";C=" y fin de linea */
-#define LARGO_FIJO_LINEA 32
+#define LARGO_FIJO_LINEA      32         /* largo fijo de una linea de buque sin el manifiesto */
+#define LARGO_PREFIJO_CODIGOS  3         /* largo de ";C=" que precede a los codigos en el archivo */
 
 typedef struct {
     char codigo[MAX_COD_CONTENEDOR];     /* "C101" */
